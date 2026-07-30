@@ -1,27 +1,39 @@
-using UnityEngine;
 using System.Collections;
+using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerCamera : MonoBehaviour
 {
 
     public float turnSpeed = 5.0f;
-    public GameObject player;
 
-    private Transform playerTransform;
+    public Transform playerTransform;
     private Vector3 offset;
     private float yOffset = 10.0f;
     private float zOffset = 10.0f;
 
-    void Start()
+    public Vector2 _rotationDelta;
+    public float _sensitivity;
+    public bool _inverted = true;
+    private Vector3 _physicalPlayerOffset;
+
+    private void Start()
     {
-        playerTransform = player.transform;
-        offset = new Vector3(playerTransform.position.x, playerTransform.position.y + yOffset, playerTransform.position.z + zOffset);
+        _physicalPlayerOffset = transform.position - playerTransform.position;
     }
 
-    void FixedUpdate()
+    private void Update()
     {
-        offset = Quaternion.AngleAxis(Input.GetAxis("Mouse X") * turnSpeed, Vector3.up) * offset;
-        transform.position = playerTransform.position + offset;
-        transform.LookAt(playerTransform.position);
+        transform.position = playerTransform.position + _physicalPlayerOffset;
+        _rotationDelta *= _sensitivity * Time.deltaTime;
+        transform.RotateAround(playerTransform.position, Vector3.up * (_inverted ? 1 : -1), _rotationDelta.x);
+        transform.RotateAround(playerTransform.position, transform.right * (_inverted ? -1 : 1), _rotationDelta.y);
+        _physicalPlayerOffset = transform.position - playerTransform.position;
+    }
+
+
+    public void OnLook(InputAction.CallbackContext context)
+    {
+        _rotationDelta = context.ReadValue<Vector2>();
     }
 }
