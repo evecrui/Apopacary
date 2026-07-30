@@ -20,6 +20,7 @@ public class PlayerCamera : MonoBehaviour
     private void Start()
     {
         _physicalPlayerOffset = transform.position - playerTransform.position;
+        Cursor.visible = false;
     }
 
     private void Update()
