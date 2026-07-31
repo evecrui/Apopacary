@@ -1153,7 +1153,7 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: a5f8cd82d68b12f4988c3bbe05540c64, type: 2}
     - target: {fileID: 2649965647840881941, guid: 7166049e9a0cac84d9b36b5185c242ab, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.53
+      value: -0.66
       objectReference: {fileID: 0}
     - target: {fileID: 2649965647840881941, guid: 7166049e9a0cac84d9b36b5185c242ab, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1161,7 +1161,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2649965647840881941, guid: 7166049e9a0cac84d9b36b5185c242ab, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -5
+      value: -3.71
       objectReference: {fileID: 0}
     - target: {fileID: 2649965647840881941, guid: 7166049e9a0cac84d9b36b5185c242ab, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1197,11 +1197,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2662161786985235237, guid: 7166049e9a0cac84d9b36b5185c242ab, type: 3}
       propertyPath: m_Layer
-      value: 3
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2662161786985235237, guid: 7166049e9a0cac84d9b36b5185c242ab, type: 3}
+      propertyPath: m_TagString
+      value: Collectable
       objectReference: {fileID: 0}
     - target: {fileID: 6628205639013347077, guid: 7166049e9a0cac84d9b36b5185c242ab, type: 3}
       propertyPath: m_Layer
-      value: 3
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1610,6 +1614,7 @@ MonoBehaviour:
   rb: {fileID: 1065061523}
   _moveDelta: {x: 0, y: 0}
   speed: 4.5
+  inRangeOptions: []
 --- !u!114 &1065061525
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1626,6 +1631,7 @@ MonoBehaviour:
   - Name: Mushroom
     Description: Mush!! :D
     AmountHeld: 0
+    BundleSize: 0
     Prefab: {fileID: 2662161786985235237, guid: 7166049e9a0cac84d9b36b5185c242ab, type: 3}
   shelvesHigh: 0
   shelvesWide: 0
@@ -1783,7 +1789,19 @@ MonoBehaviour:
     m_ActionId: 6c2ab1b8-8984-453a-af3d-a3c78ae1679a
     m_ActionName: 'Player/Attack[/Mouse/leftButton,/Keyboard/enter]'
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1065061524}
+        m_TargetAssemblyTypeName: PlayerMovement, Assembly-CSharp
+        m_MethodName: OnInteract
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 852140f2-7766-474d-8707-702459ba45f3
     m_ActionName: 'Player/Interact[/Keyboard/e]'
   - m_PersistentCalls:
@@ -2645,7 +2663,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1786175779
 MonoBehaviour:
   m_ObjectHideFlags: 0
