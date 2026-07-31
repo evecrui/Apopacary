@@ -2,6 +2,7 @@ using NUnit.Framework;
 using NUnit.Framework.Interfaces;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class PlayerInventory : MonoBehaviour
@@ -11,6 +12,8 @@ public class PlayerInventory : MonoBehaviour
     public Dictionary<Ingredient, int> InventoryIndexes = new Dictionary<Ingredient, int>();
     public Dictionary<Vector2Int, Ingredient> ShelfToIngredient = new Dictionary<Vector2Int, Ingredient>();
     public Dictionary<string, Ingredient> NameToIngredient = new Dictionary<string, Ingredient>();
+    public List<float> xShelfPositions = new List<float>();
+    public List<float> yShelfPositions = new List<float>();
     public int shelvesHigh;
     public int shelvesWide;
 
@@ -33,10 +36,12 @@ public class PlayerInventory : MonoBehaviour
         {
             Vector2Int emptyShelf = GetNextEmptyShelf();
             // NEED TO ADD PICTURE AND SHELF OBJ PROBLY
-            ShelfToIngredient.Add(emptyShelf, ingredient);
             ingredient.SetShelfPos(emptyShelf);
+            ingredient.Shelf.SetActive(true);
+            ingredient.Shelf.GetComponent<RectTransform>().anchoredPosition = new Vector2(xShelfPositions[emptyShelf.x], yShelfPositions[emptyShelf.y]);
         }
         ingredient.AddAmount(amount);
+        ingredient.Shelf.GetComponentInChildren<TextMeshProUGUI>().text = ingredient.AmountHeld.ToString();
     }
 
     public void AddIngredient(string name) {
@@ -65,6 +70,7 @@ public class Ingredient
     public int AmountHeld;
     public int BundleSize;
     private Vector2Int ShelfPos;
+    public GameObject Shelf;
     public GameObject Prefab;
 
     public Ingredient(string name, string description, int amountHeld, int bundleSize, Vector2Int shelfPos, GameObject prefab)
