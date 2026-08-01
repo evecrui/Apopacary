@@ -6,9 +6,10 @@ public class DragObj : MonoBehaviour
 {
     [SerializeField] private InputAction press, screenPos;
     private Vector3 mousePos;
+    private Transform playerTrans;
     Camera cam;
     Rigidbody rb;
-    private bool isDragging;
+    public bool isDragging;
     private Vector3 mouseWorldPos {
         get {
             float z = cam.WorldToScreenPoint(transform.position).z;
@@ -20,15 +21,22 @@ public class DragObj : MonoBehaviour
             if (mousePos.x < 0) return false;
             Ray ray = cam.ScreenPointToRay(mousePos);
             RaycastHit hit;
-            Debug.DrawRay(ray.origin, ray.direction);
             if (Physics.Raycast(ray, out hit)) {
-                Debug.Log("Hit: " + hit.transform.name);
                 return hit.transform == transform;
             }
             return false;
         } }
 
+    private bool inPlayerRange {
+        get {
+            return Vector3.Magnitude(playerTrans.position - transform.position) < maxRangeThreshold;
+        }
+    }
+
+    float maxRangeThreshold = 4;
+
     private void Awake() {
+        playerTrans = GameObject.FindObjectsByType<PlayerMovement>(FindObjectsSortMode.None)[0].transform;
         rb = GetComponent<Rigidbody>();
         cam = Camera.main;
         screenPos.Enable();
@@ -36,30 +44,30 @@ public class DragObj : MonoBehaviour
         screenPos.performed += context => { 
             mousePos = context.ReadValue<Vector2>() - new Vector2(520, 0);
             mousePos.x = Mathf.Clamp(mousePos.x, -1, 1400); };
-        press.performed += _ => { Debug.Log("MouseClick"); if(isClicked) StartCoroutine(Drag()); };
+        press.performed += _ => { if(isClicked && inPlayerRange) StartCoroutine(Drag()); };
         press.canceled += _ => { isDragging = false; };
     }
 
-    void Update() {
-        Ray ray = cam.ScreenPointToRay(mousePos);
-        RaycastHit hit;
-        Debug.DrawRay(ray.origin, ray.direction);
-    }
-
-    private IEnumerator Drag() {
-        Debug.Log("Dragging");
+    public IEnumerator Drag() {
         isDragging = true;
+        PlayerInventory.PI.draggedIngredient = gameObject;
         Vector3 offset = transform.position - mouseWorldPos;
+        float playerZOffset = transform.position.z - playerTrans.position.z;
         rb.useGravity = false;
         rb.constraints = (RigidbodyConstraints)126; // no rotation
+        if (GetComponent<Collider>() != null)
+            GetComponent<Collider>().enabled = false;
         //Grab
-        while (isDragging) {
+        while (isDragging && inPlayerRange) {
             //Dragging
             transform.position = mouseWorldPos + offset;
+            transform.position = new Vector3(transform.position.x, transform.position.y, playerTrans.position.z + playerZOffset);
             yield return null;
         }
         //Drop
         rb.useGravity = true;
         rb.constraints = (RigidbodyConstraints)0;
+        if (GetComponent<Collider>() != null)
+            GetComponent<Collider>().enabled = true;
     }
 }

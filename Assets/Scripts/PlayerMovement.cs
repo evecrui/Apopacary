@@ -39,16 +39,6 @@ public class PlayerMovement : MonoBehaviour
         _moveDelta.Normalize();
     }
 
-    public void OnInteract(InputAction.CallbackContext context) {
-        if (context.started && inRangeOptions.Count > 0) {
-            if (inRangeOptions[0].tag == "Collectable") {
-                PlayerInventory.PI.AddIngredient(inRangeOptions[0].name);
-                inRangeOptions[0].SetActive(false);
-                inRangeOptions.RemoveAt(0);
-            }
-        }
-    }
-
     public void OnShift(InputAction.CallbackContext context) {
         if (context.started) {
             running = true;

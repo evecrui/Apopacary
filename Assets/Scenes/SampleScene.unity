@@ -7718,8 +7718,6 @@ GameObject:
   - component: {fileID: 249762159}
   - component: {fileID: 249762158}
   - component: {fileID: 249762157}
-  - component: {fileID: 249762161}
-  - component: {fileID: 249762162}
   m_Layer: 0
   m_Name: Tree (8)
   m_TagString: Untagged
@@ -7816,7 +7814,7 @@ Transform:
   m_GameObject: {fileID: 249762156}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 7.09335, y: 3.17, z: -3.55578}
+  m_LocalPosition: {x: 7.09335, y: 2.45, z: -3.55578}
   m_LocalScale: {x: 0.69064, y: 3.907344, z: 0.69064}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -7825,82 +7823,8 @@ Transform:
   - {fileID: 1368249517}
   - {fileID: 990514973}
   - {fileID: 665139166}
-  - {fileID: 1528609576}
   m_Father: {fileID: 694229179}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &249762161
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 249762156}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9fa43328bf6686342a3f2545f4b86f18, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::DragObj
-  press:
-    m_Name: Press
-    m_Type: 0
-    m_ExpectedControlType: 
-    m_Id: 0fa1cf72-5b95-43f8-b017-c9dfcb870e71
-    m_Processors: 
-    m_Interactions: 
-    m_SingletonActionBindings:
-    - m_Name: 
-      m_Id: 8765ba4f-fbc4-485d-9057-9ea70d96a0b7
-      m_Path: <Mouse>/leftButton
-      m_Interactions: 
-      m_Processors: 
-      m_Groups: 
-      m_Action: Press
-      m_Flags: 0
-    m_Flags: 0
-  screenPos:
-    m_Name: Screen Pos
-    m_Type: 0
-    m_ExpectedControlType: 
-    m_Id: 374b2d9e-f0bf-409a-a9e4-c502255a9f41
-    m_Processors: 
-    m_Interactions: 
-    m_SingletonActionBindings:
-    - m_Name: 
-      m_Id: f2c40d1b-33fb-4d82-9f6c-b270a600e27d
-      m_Path: <Mouse>/position
-      m_Interactions: 
-      m_Processors: 
-      m_Groups: 
-      m_Action: Screen Pos
-      m_Flags: 0
-    m_Flags: 0
---- !u!54 &249762162
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 249762156}
-  serializedVersion: 5
-  m_Mass: 1
-  m_LinearDamping: 0
-  m_AngularDamping: 0.05
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 1, y: 1, z: 1}
-  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ImplicitCom: 1
-  m_ImplicitTensor: 1
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
 --- !u!1 &251041091
 GameObject:
   m_ObjectHideFlags: 0
@@ -13055,6 +12979,81 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 413484618}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &414838413
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 414838414}
+  - component: {fileID: 414838416}
+  - component: {fileID: 414838415}
+  m_Layer: 5
+  m_Name: Image
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &414838414
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 414838413}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1786175782}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 520, y: 473.3}
+  m_Pivot: {x: 0, y: 1}
+--- !u!114 &414838415
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 414838413}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.2924528, g: 0.2924528, b: 0.2924528, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &414838416
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 414838413}
+  m_CullTransparentMesh: 1
 --- !u!1001 &416212641
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -13138,6 +13137,12 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2662161786985235237, guid: 7166049e9a0cac84d9b36b5185c242ab, type: 3}
       insertIndex: -1
       addedObject: {fileID: 416212643}
+    - targetCorrespondingSourceObject: {fileID: 2662161786985235237, guid: 7166049e9a0cac84d9b36b5185c242ab, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 416212649}
+    - targetCorrespondingSourceObject: {fileID: 2662161786985235237, guid: 7166049e9a0cac84d9b36b5185c242ab, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 416212648}
   m_SourcePrefab: {fileID: 100100000, guid: 7166049e9a0cac84d9b36b5185c242ab, type: 3}
 --- !u!1 &416212642 stripped
 GameObject:
@@ -13170,6 +13175,80 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2649965647840881941, guid: 7166049e9a0cac84d9b36b5185c242ab, type: 3}
   m_PrefabInstance: {fileID: 416212641}
   m_PrefabAsset: {fileID: 0}
+--- !u!54 &416212648
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 416212642}
+  serializedVersion: 5
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 126
+  m_CollisionDetection: 0
+--- !u!114 &416212649
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 416212642}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9fa43328bf6686342a3f2545f4b86f18, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DragObj
+  press:
+    m_Name: Press
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 0fa1cf72-5b95-43f8-b017-c9dfcb870e71
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings:
+    - m_Name: 
+      m_Id: 8765ba4f-fbc4-485d-9057-9ea70d96a0b7
+      m_Path: <Mouse>/leftButton
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Press
+      m_Flags: 0
+    m_Flags: 0
+  screenPos:
+    m_Name: Screen Pos
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 374b2d9e-f0bf-409a-a9e4-c502255a9f41
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings:
+    - m_Name: 
+      m_Id: f2c40d1b-33fb-4d82-9f6c-b270a600e27d
+      m_Path: <Mouse>/position
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Screen Pos
+      m_Flags: 0
+    m_Flags: 0
+  isDragging: 0
 --- !u!1 &417469434
 GameObject:
   m_ObjectHideFlags: 0
@@ -28789,7 +28868,7 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 2662161786985235237, guid: 7166049e9a0cac84d9b36b5185c242ab, type: 3}
-      insertIndex: -1
+      insertIndex: 4
       addedObject: {fileID: 954956963}
   m_SourcePrefab: {fileID: 100100000, guid: 7166049e9a0cac84d9b36b5185c242ab, type: 3}
 --- !u!1 &954956962 stripped
@@ -32727,15 +32806,18 @@ MonoBehaviour:
   - Name: Mushroom
     Description: Mush!! :D
     AmountHeld: 0
-    BundleSize: 2
+    BundleSize: 1
     Shelf: {fileID: 1888602395}
     Prefab: {fileID: 2662161786985235237, guid: 7166049e9a0cac84d9b36b5185c242ab, type: 3}
+    FoundAny: 0
   xShelfPositions:
   - 7.400024
   yShelfPositions:
   - 559.2
   shelvesHigh: 0
   shelvesWide: 0
+  draggedIngredient: {fileID: 0}
+  hoveringShelf: {fileID: 0}
 --- !u!54 &1065061526
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -35816,6 +35898,12 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2662161786985235237, guid: 7166049e9a0cac84d9b36b5185c242ab, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1140088440}
+    - targetCorrespondingSourceObject: {fileID: 2662161786985235237, guid: 7166049e9a0cac84d9b36b5185c242ab, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1140088446}
+    - targetCorrespondingSourceObject: {fileID: 2662161786985235237, guid: 7166049e9a0cac84d9b36b5185c242ab, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1140088445}
   m_SourcePrefab: {fileID: 100100000, guid: 7166049e9a0cac84d9b36b5185c242ab, type: 3}
 --- !u!1 &1140088439 stripped
 GameObject:
@@ -35848,6 +35936,80 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2649965647840881941, guid: 7166049e9a0cac84d9b36b5185c242ab, type: 3}
   m_PrefabInstance: {fileID: 1140088438}
   m_PrefabAsset: {fileID: 0}
+--- !u!54 &1140088445
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1140088439}
+  serializedVersion: 5
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 126
+  m_CollisionDetection: 0
+--- !u!114 &1140088446
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1140088439}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9fa43328bf6686342a3f2545f4b86f18, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DragObj
+  press:
+    m_Name: Press
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 0fa1cf72-5b95-43f8-b017-c9dfcb870e71
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings:
+    - m_Name: 
+      m_Id: 8765ba4f-fbc4-485d-9057-9ea70d96a0b7
+      m_Path: <Mouse>/leftButton
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Press
+      m_Flags: 0
+    m_Flags: 0
+  screenPos:
+    m_Name: Screen Pos
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 374b2d9e-f0bf-409a-a9e4-c502255a9f41
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings:
+    - m_Name: 
+      m_Id: f2c40d1b-33fb-4d82-9f6c-b270a600e27d
+      m_Path: <Mouse>/position
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Screen Pos
+      m_Flags: 0
+    m_Flags: 0
+  isDragging: 0
 --- !u!1 &1141606247
 GameObject:
   m_ObjectHideFlags: 0
@@ -42905,8 +43067,8 @@ MonoBehaviour:
     m_ActionName: 'Player/Attack[/Mouse/leftButton,/Keyboard/enter]'
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1065061524}
-        m_TargetAssemblyTypeName: PlayerMovement, Assembly-CSharp
+      - m_Target: {fileID: 1065061525}
+        m_TargetAssemblyTypeName: PlayerInventory, Assembly-CSharp
         m_MethodName: OnInteract
         m_Mode: 0
         m_Arguments:
@@ -43007,6 +43169,10 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 6f0be8ac-b714-426d-93d6-3726ddb0f080
     m_ActionName: 'Player/Scroll[/Mouse/middleButton]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 669c0dfc-c8f4-45d2-9fc2-4fc3214eff97
+    m_ActionName: 'Player/MousePos[/Mouse/position]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Keyboard&Mouse
   m_DefaultActionMap: Player
@@ -43039,7 +43205,7 @@ GameObject:
   - component: {fileID: 1407246950}
   - component: {fileID: 1407246949}
   m_Layer: 0
-  m_Name: Player
+  m_Name: PlayerGraphics
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -43059,6 +43225,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 742026978}
+  - {fileID: 1984699786}
   m_Father: {fileID: 1065061522}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!23 &1407246949
@@ -46390,11 +46557,11 @@ Transform:
   m_GameObject: {fileID: 1528609572}
   serializedVersion: 2
   m_LocalRotation: {x: 0.07821725, y: 0.07821725, z: -0.006155832, w: 0.99384415}
-  m_LocalPosition: {x: 5.56006, y: -0.6589335, z: -11.511062}
-  m_LocalScale: {x: 1.4479322, y: 0.26119033, z: 1.2997844}
+  m_LocalPosition: {x: 11.24, y: 1.54, z: -11.65}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 249762160}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 9, y: 9, z: 0}
 --- !u!1 &1530700269
 GameObject:
@@ -49118,6 +49285,12 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2662161786985235237, guid: 7166049e9a0cac84d9b36b5185c242ab, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1618700075}
+    - targetCorrespondingSourceObject: {fileID: 2662161786985235237, guid: 7166049e9a0cac84d9b36b5185c242ab, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1618700081}
+    - targetCorrespondingSourceObject: {fileID: 2662161786985235237, guid: 7166049e9a0cac84d9b36b5185c242ab, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1618700080}
   m_SourcePrefab: {fileID: 100100000, guid: 7166049e9a0cac84d9b36b5185c242ab, type: 3}
 --- !u!1 &1618700074 stripped
 GameObject:
@@ -49150,6 +49323,80 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2649965647840881941, guid: 7166049e9a0cac84d9b36b5185c242ab, type: 3}
   m_PrefabInstance: {fileID: 1618700073}
   m_PrefabAsset: {fileID: 0}
+--- !u!54 &1618700080
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1618700074}
+  serializedVersion: 5
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 126
+  m_CollisionDetection: 0
+--- !u!114 &1618700081
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1618700074}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9fa43328bf6686342a3f2545f4b86f18, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DragObj
+  press:
+    m_Name: Press
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 0fa1cf72-5b95-43f8-b017-c9dfcb870e71
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings:
+    - m_Name: 
+      m_Id: 8765ba4f-fbc4-485d-9057-9ea70d96a0b7
+      m_Path: <Mouse>/leftButton
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Press
+      m_Flags: 0
+    m_Flags: 0
+  screenPos:
+    m_Name: Screen Pos
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 374b2d9e-f0bf-409a-a9e4-c502255a9f41
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings:
+    - m_Name: 
+      m_Id: f2c40d1b-33fb-4d82-9f6c-b270a600e27d
+      m_Path: <Mouse>/position
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Screen Pos
+      m_Flags: 0
+    m_Flags: 0
+  isDragging: 0
 --- !u!1 &1622432672
 GameObject:
   m_ObjectHideFlags: 0
@@ -54127,6 +54374,7 @@ RectTransform:
   - {fileID: 1589380651}
   - {fileID: 1888602396}
   - {fileID: 1718418157}
+  - {fileID: 414838414}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -56929,7 +57177,7 @@ GameObject:
   - component: {fileID: 1888602396}
   - component: {fileID: 1888602397}
   m_Layer: 5
-  m_Name: Drawer
+  m_Name: DrawerMushroom
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -57732,6 +57980,12 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2662161786985235237, guid: 7166049e9a0cac84d9b36b5185c242ab, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1913740452}
+    - targetCorrespondingSourceObject: {fileID: 2662161786985235237, guid: 7166049e9a0cac84d9b36b5185c242ab, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1913740458}
+    - targetCorrespondingSourceObject: {fileID: 2662161786985235237, guid: 7166049e9a0cac84d9b36b5185c242ab, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1913740457}
   m_SourcePrefab: {fileID: 100100000, guid: 7166049e9a0cac84d9b36b5185c242ab, type: 3}
 --- !u!1 &1913740451 stripped
 GameObject:
@@ -57764,6 +58018,80 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2649965647840881941, guid: 7166049e9a0cac84d9b36b5185c242ab, type: 3}
   m_PrefabInstance: {fileID: 1913740450}
   m_PrefabAsset: {fileID: 0}
+--- !u!54 &1913740457
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1913740451}
+  serializedVersion: 5
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 126
+  m_CollisionDetection: 0
+--- !u!114 &1913740458
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1913740451}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9fa43328bf6686342a3f2545f4b86f18, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DragObj
+  press:
+    m_Name: Press
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 0fa1cf72-5b95-43f8-b017-c9dfcb870e71
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings:
+    - m_Name: 
+      m_Id: 8765ba4f-fbc4-485d-9057-9ea70d96a0b7
+      m_Path: <Mouse>/leftButton
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Press
+      m_Flags: 0
+    m_Flags: 0
+  screenPos:
+    m_Name: Screen Pos
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 374b2d9e-f0bf-409a-a9e4-c502255a9f41
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings:
+    - m_Name: 
+      m_Id: f2c40d1b-33fb-4d82-9f6c-b270a600e27d
+      m_Path: <Mouse>/position
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Screen Pos
+      m_Flags: 0
+    m_Flags: 0
+  isDragging: 0
 --- !u!1 &1921127052
 GameObject:
   m_ObjectHideFlags: 0
@@ -59562,6 +59890,96 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1982666293}
+  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1984699785
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1984699786}
+  - component: {fileID: 1984699788}
+  - component: {fileID: 1984699787}
+  m_Layer: 0
+  m_Name: Sphere
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1984699786
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1984699785}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.00000011921, y: -0.91, z: 0.00000011921}
+  m_LocalScale: {x: 8, y: 0.07995193, z: 8}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1407246946}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!23 &1984699787
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1984699785}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_MaskInteraction: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!33 &1984699788
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1984699785}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &1989383619
 GameObject:
@@ -63537,4 +63955,5 @@ SceneRoots:
   - {fileID: 1786175782}
   - {fileID: 827354772}
   - {fileID: 694229179}
+  - {fileID: 1528609576}
   - {fileID: 860107187}
