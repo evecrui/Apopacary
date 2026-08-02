@@ -19,6 +19,7 @@ public class PlayerInventory : MonoBehaviour
     public int shelvesWide;
     public GameObject draggedIngredient;
     public GameObject hoveringShelf;
+    public GameObject DrawersParent;
 
     private void Start()
     {
@@ -27,6 +28,14 @@ public class PlayerInventory : MonoBehaviour
         int i = 0;
         foreach (Ingredient ing in Inventory)
         {
+            foreach (Transform drawer in DrawersParent.transform.GetComponentsInChildren<Transform>())
+            {
+                if (drawer.name.Replace("Drawer", "") == ing.name)
+                {
+                    ing.Shelf = drawer.gameObject;
+                    break;
+                }
+            }
             NameToIngredient.Add(ing.Name, ing);
             i++;
         }
@@ -73,8 +82,8 @@ public class PlayerInventory : MonoBehaviour
     }
 }
 
-[System.Serializable]
-public class Ingredient
+[CreateAssetMenu(fileName = "NewIngredientData", menuName = "ScriptableObjects/IngredientData", order = 1)]
+public class Ingredient : ScriptableObject
 {
     public string Name;
     public string Description;
@@ -84,10 +93,23 @@ public class Ingredient
     public GameObject Shelf;
     public GameObject Prefab;
     public bool FoundAny;
-    public List<GameObject> ObjectsThatCanUseThis;
+    public List<Interactible> AlterationKeys;
+    public List<Ingredient> AlterationValues;
+    private Dictionary<Interactible, Ingredient> Alterations;
 
     public Ingredient(string name, string description, int amountHeld, int bundleSize, Vector2Int shelfPos, GameObject prefab)
     {
+        Interactible aKey;
+        Ingredient aValue;
+
+        for (int index = 0; index < AlterationKeys.Count; index++)
+        {
+            aKey = AlterationKeys[index];
+            aValue = AlterationValues[index];
+
+            Alterations[aKey] = aValue;
+        }
+
         Name = name;
         Description = description;
         AmountHeld = amountHeld;
