@@ -47,6 +47,7 @@ public class PlayerInventory : MonoBehaviour
             ingObj.name = hoveringIng.Name;
             hoveringIng.AddAmount(-hoveringIng.BundleSize);
             hoveringIng.Shelf.GetComponentInChildren<TextMeshProUGUI>().text = hoveringIng.AmountHeld.ToString();
+            GetComponent<Interactible>().Interact(ingObj);
         }
     }
 
