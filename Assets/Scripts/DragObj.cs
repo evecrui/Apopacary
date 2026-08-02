@@ -10,6 +10,8 @@ public class DragObj : MonoBehaviour
     Camera cam;
     Rigidbody rb;
     public bool isDragging;
+    public GameObject hoveredObject;
+
     private Vector3 mouseWorldPos {
         get {
             float z = cam.WorldToScreenPoint(transform.position).z;
@@ -33,7 +35,7 @@ public class DragObj : MonoBehaviour
         }
     }
 
-    float maxRangeThreshold = 4;
+    float maxRangeThreshold = 3;
 
     private void Awake() {
         playerTrans = GameObject.FindObjectsByType<PlayerMovement>(FindObjectsSortMode.None)[0].transform;
@@ -62,6 +64,8 @@ public class DragObj : MonoBehaviour
             //Dragging
             transform.position = mouseWorldPos + offset;
             transform.position = new Vector3(transform.position.x, transform.position.y, playerTrans.position.z + playerZOffset);
+
+            // check for objects that are being hovered over that can be interacted with
             yield return null;
         }
         //Drop

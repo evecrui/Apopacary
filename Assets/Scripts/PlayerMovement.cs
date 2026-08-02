@@ -48,7 +48,7 @@ public class PlayerMovement : MonoBehaviour
     }
 
     private void OnTriggerEnter(Collider other) {
-        if (other.tag == "Collectable") {
+        if (other.tag == "Ingredient") {
             if (!inRangeOptions.Contains(other.gameObject))
                 inRangeOptions.Add(other.gameObject);
             other.gameObject.layer = 3;
@@ -56,7 +56,7 @@ public class PlayerMovement : MonoBehaviour
     }
 
     private void OnTriggerExit(Collider other) {
-        if (other.tag == "Collectable") {
+        if (other.tag == "Ingredient") {
             if (inRangeOptions.Contains(other.gameObject))
                 inRangeOptions.Remove(other.gameObject);
             other.gameObject.layer = LayerMask.GetMask("Default");

@@ -34,7 +34,7 @@ public class PlayerInventory : MonoBehaviour
 
     public void OnInteract(InputAction.CallbackContext context) {
         if (context.started && draggedIngredient != null) {
-            if (draggedIngredient.tag == "Collectable") {
+            if (draggedIngredient.tag == "Ingredient") {
                 AddIngredient(draggedIngredient.name);
                 StopCoroutine(draggedIngredient.GetComponent<DragObj>().Drag());
                 draggedIngredient.SetActive(false);
@@ -83,6 +83,7 @@ public class Ingredient
     public GameObject Shelf;
     public GameObject Prefab;
     public bool FoundAny;
+    public List<GameObject> ObjectsThatCanUseThis;
 
     public Ingredient(string name, string description, int amountHeld, int bundleSize, Vector2Int shelfPos, GameObject prefab)
     {
