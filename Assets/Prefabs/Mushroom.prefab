@@ -163,8 +163,10 @@ MonoBehaviour:
       m_Action: Screen Pos
       m_Flags: 0
     m_Flags: 0
+  mr: {fileID: 7520184015670047775}
   isDragging: 0
   hoveredInteractable: {fileID: 0}
+  holdingInteractable: {fileID: 0}
 --- !u!54 &1295517637981955512
 Rigidbody:
   m_ObjectHideFlags: 0

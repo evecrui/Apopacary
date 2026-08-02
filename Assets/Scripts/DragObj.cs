@@ -9,6 +9,7 @@ public class DragObj : MonoBehaviour
     private Transform playerTrans;
     Camera cam;
     Rigidbody rb;
+    public MeshRenderer mr;
     public bool isDragging;
     public Interactible hoveredInteractable;
     public Interactible holdingInteractable;
@@ -87,16 +88,26 @@ public class DragObj : MonoBehaviour
         if (holdingInteractable != null)
             holdingInteractable.Release(gameObject);
         //Grab
-        while (isDragging && inPlayerRange) {
+        while (isDragging) {
             //Dragging
             transform.position = mouseWorldPos + offset;
             transform.position = new Vector3(transform.position.x, transform.position.y, playerTrans.position.z + playerZOffset);
+            if (mousePos.x < 0)
+                mr.enabled = false;
+            else mr.enabled = true;
 
             // check for objects that are being hovered over that can be interacted with
             CheckHoveredObjs();
             yield return null;
         }
         //Drop
+        if (mousePos.x < 0)
+        {
+            PlayerInventory.PI.draggedIngredient = null;
+            PlayerInventory.PI.AddIngredient(gameObject.name);
+            gameObject.SetActive(false);
+        }
+
         rb.useGravity = true;
         rb.constraints = (RigidbodyConstraints)0;
         if (GetComponent<Collider>() != null)
