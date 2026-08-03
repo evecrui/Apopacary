@@ -11,8 +11,8 @@ public class DragObj : MonoBehaviour
     Rigidbody rb;
     public MeshRenderer mr;
     public bool isDragging;
-    public Interactible hoveredInteractable;
-    public Interactible holdingInteractable;
+    public Interactable hoveredInteractable;
+    public Interactable holdingInteractable;
 
     private Vector3 mouseWorldPos {
         get {
@@ -54,7 +54,7 @@ public class DragObj : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit))
         {
-            Interactible i = hit.transform.GetComponent<Interactible>();
+            Interactable i = hit.transform.GetComponent<Interactable>();
             if (hoveredInteractable != i && hoveredInteractable != null)
                 hoveredInteractable.UnHover();
             if (i != null)
@@ -69,7 +69,7 @@ public class DragObj : MonoBehaviour
         cam = Camera.main;
         screenPos.Enable();
         press.Enable();
-        screenPos.performed += context => { 
+        screenPos.performed += context => {
             mousePos = context.ReadValue<Vector2>() - new Vector2(520, 0);
             mousePos.x = Mathf.Clamp(mousePos.x, -1, 1400); };
         press.performed += _ => { if(isClicked && inPlayerRange) StartCoroutine(Drag()); };
@@ -81,12 +81,12 @@ public class DragObj : MonoBehaviour
         PlayerInventory.PI.draggedIngredient = gameObject;
         Vector3 offset = transform.position - mouseWorldPos;
         float playerZOffset = transform.position.z - playerTrans.position.z;
+        if (holdingInteractable != null)
+            holdingInteractable.Release(gameObject);
         rb.useGravity = false;
         rb.constraints = (RigidbodyConstraints)126; // no rotation
         if (GetComponent<Collider>() != null)
             GetComponent<Collider>().enabled = false;
-        if (holdingInteractable != null)
-            holdingInteractable.Release(gameObject);
         //Grab
         while (isDragging) {
             //Dragging
@@ -106,14 +106,14 @@ public class DragObj : MonoBehaviour
             PlayerInventory.PI.draggedIngredient = null;
             PlayerInventory.PI.AddIngredient(gameObject.name);
             gameObject.SetActive(false);
+        } else {
+            rb.useGravity = true;
+            rb.constraints = (RigidbodyConstraints)0;
+            if (GetComponent<Collider>() != null)
+                GetComponent<Collider>().enabled = true;
+            PlayerInventory.PI.draggedIngredient = null;
+            if (hoveredInteractable != null)
+                { hoveredInteractable.Interact(gameObject); hoveredInteractable.UnHover(); }
         }
-
-        rb.useGravity = true;
-        rb.constraints = (RigidbodyConstraints)0;
-        if (GetComponent<Collider>() != null)
-            GetComponent<Collider>().enabled = true;
-        PlayerInventory.PI.draggedIngredient = null;
-        if (hoveredInteractable != null) { hoveredInteractable.Interact(gameObject); hoveredInteractable.UnHover(); }
-        
     }
 }

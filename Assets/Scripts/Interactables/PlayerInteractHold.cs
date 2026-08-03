@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class PlayerInteractHold : Interactible
+public class PlayerInteractHold : Interactable
 {
     Rigidbody rb;
     Transform ogParent;

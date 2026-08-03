@@ -19,6 +19,7 @@ public class PlayerInventory : MonoBehaviour
     public int shelvesWide;
     public GameObject draggedIngredient;
     public GameObject hoveringShelf;
+    public Interactable hoveringInteractable;
     public GameObject DrawersParent;
 
     private void Start()
@@ -28,9 +29,10 @@ public class PlayerInventory : MonoBehaviour
         int i = 0;
         foreach (Ingredient ing in Inventory)
         {
-            foreach (Transform drawer in DrawersParent.transform.GetComponentsInChildren<Transform>())
+            ing.PrepIngredient();
+            foreach (Transform drawer in DrawersParent.transform.GetComponentsInChildren<Transform>(true))
             {
-                if (drawer.name.Replace("Drawer", "") == ing.name)
+                if (drawer.name.Replace("Drawer", "") == ing.Name)
                 {
                     ing.Shelf = drawer.gameObject;
                     break;
@@ -42,7 +44,11 @@ public class PlayerInventory : MonoBehaviour
     }
 
     public void OnInteract(InputAction.CallbackContext context) {
-        if (context.started && draggedIngredient != null) {
+        if (context.started && hoveringInteractable != null)
+        {
+            hoveringInteractable.InteractEmptyHand();
+        }
+        else if (context.started && draggedIngredient != null) {
             if (draggedIngredient.tag == "Ingredient") {
                 AddIngredient(draggedIngredient.name);
                 StopCoroutine(draggedIngredient.GetComponent<DragObj>().Drag());
@@ -56,7 +62,7 @@ public class PlayerInventory : MonoBehaviour
             ingObj.name = hoveringIng.Name;
             hoveringIng.AddAmount(-hoveringIng.BundleSize);
             hoveringIng.Shelf.GetComponentInChildren<TextMeshProUGUI>().text = hoveringIng.AmountHeld.ToString();
-            GetComponent<Interactible>().Interact(ingObj);
+            GetComponent<Interactable>().Interact(ingObj);
         }
     }
 
@@ -93,14 +99,17 @@ public class Ingredient : ScriptableObject
     public GameObject Shelf;
     public GameObject Prefab;
     public bool FoundAny;
-    public List<Interactible> AlterationKeys;
+    public List<string> AlterationKeys;
     public List<Ingredient> AlterationValues;
-    private Dictionary<Interactible, Ingredient> Alterations;
+    public Dictionary<string, Ingredient> Alterations;
 
-    public Ingredient(string name, string description, int amountHeld, int bundleSize, Vector2Int shelfPos, GameObject prefab)
+    public void PrepIngredient()
     {
-        Interactible aKey;
+        AmountHeld = 0;
+        FoundAny = false;
+        string aKey;
         Ingredient aValue;
+        Alterations = new Dictionary<string, Ingredient>();
 
         for (int index = 0; index < AlterationKeys.Count; index++)
         {
@@ -109,14 +118,6 @@ public class Ingredient : ScriptableObject
 
             Alterations[aKey] = aValue;
         }
-
-        Name = name;
-        Description = description;
-        AmountHeld = amountHeld;
-        BundleSize = bundleSize;
-        ShelfPos = shelfPos;
-        Prefab = prefab;
-        FoundAny = false;
     }
 
     public void AddAmount(int amount)

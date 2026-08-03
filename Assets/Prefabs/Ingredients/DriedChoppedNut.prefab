@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 1295517637981955512}
   - component: {fileID: 1592042160044823264}
   m_Layer: 0
-  m_Name: Dried Chopped Nuts
+  m_Name: DriedChoppedNut
   m_TagString: Ingredient
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

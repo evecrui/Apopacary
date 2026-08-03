@@ -14,14 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Ingredient
   Name: Nut
   Description: Yay nut :D
-  AmountHeld: 0
+  AmountHeld: 2
   BundleSize: 1
   Shelf: {fileID: 0}
   Prefab: {fileID: 2662161786985235237, guid: 1a482daf790564140985cd7dc74b0318, type: 3}
   FoundAny: 0
   AlterationKeys:
-  - {fileID: 0}
-  - {fileID: 0}
+  - ChoppingBoard
   AlterationValues:
   - {fileID: 11400000, guid: f2f6d735d789a584b85434b8da555f20, type: 2}
-  - {fileID: 11400000, guid: a31054d1f5d82c64a83b4874146dd4b1, type: 2}
