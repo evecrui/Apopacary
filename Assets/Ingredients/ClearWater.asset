@@ -18,6 +18,7 @@ MonoBehaviour:
   Shelf: {fileID: 0}
   Prefab: {fileID: 4644106317018619020, guid: 1b53cbf3111623c4bb71c8157bd5a4ee, type: 3}
   FoundAny: 0
+  StoredInShelves: 1
   AlterationKeys: []
   AlterationValues: []
   infusion: 0
