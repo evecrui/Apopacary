@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7c8baf8712e7d0408b72f60ef662293, type: 3}
+  m_Name: DriedPowderedNuts
+  m_EditorClassIdentifier: Assembly-CSharp::Ingredient
+  Name: DriedPowderedNuts
+  Description: 
+  AmountHeld: 0
+  Shelf: {fileID: 0}
+  Prefab: {fileID: 2662161786985235237, guid: 480173e7b0c5ce245b6ab77226f936c2, type: 3}
+  FoundAny: 0
+  AlterationKeys: []
+  AlterationValues: []
+  infusion: 0
+  relevantFlavourFlag: 5
+  relevantFlavourFlag2: 2
+  relevantFlavourFlag3: 0
+  temperature: 0
+  strength: 1
+  sweetness: 0
+  teaType: 0
+  nuttiness: 1
+  syruped: 0
+  waters: 0
+  milks: 0
+  balls: 0
+  alcoholic: 0
+  perfumed: 0

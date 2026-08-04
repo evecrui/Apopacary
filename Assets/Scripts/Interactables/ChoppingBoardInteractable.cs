@@ -4,6 +4,7 @@ public class ChoppingBoardInteractable : Interactable
 {
     Rigidbody rb;
     Transform ogParent;
+    public Vector3 relativeHeldPos;
 
     public override void Interact(GameObject ingredient)
     {
@@ -19,8 +20,7 @@ public class ChoppingBoardInteractable : Interactable
         rb.useGravity = false;
         rb.constraints = (RigidbodyConstraints)126; // no rotation
 
-        heldIngredient.transform.parent = transform;
-        heldIngredient.transform.localPosition = Vector3.up;
+        heldIngredient.transform.position = transform.TransformPoint(relativeHeldPos);
     }
 
     public override void Release(GameObject ingredient)
@@ -28,7 +28,6 @@ public class ChoppingBoardInteractable : Interactable
         ingredient.GetComponent<DragObj>().holdingInteractable = null;
         rb.useGravity = true;
         rb.constraints = (RigidbodyConstraints)0;
-        heldIngredient.transform.parent = ogParent;
 
         heldIngredient = null;
     }

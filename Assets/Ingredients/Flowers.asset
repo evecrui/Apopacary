@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7c8baf8712e7d0408b72f60ef662293, type: 3}
+  m_Name: Flowers
+  m_EditorClassIdentifier: Assembly-CSharp::Ingredient
+  Name: Flowers
+  Description: 
+  AmountHeld: 0
+  Shelf: {fileID: 0}
+  Prefab: {fileID: 2312114675844726382, guid: f12fb7e851789444fb768c474e534b98, type: 3}
+  FoundAny: 0
+  AlterationKeys:
+  - ChoppingBoard
+  - Oven
+  - Distillery
+  AlterationValues:
+  - {fileID: 11400000, guid: 1fe55618776d66a40b4ec194772372ac, type: 2}
+  - {fileID: 11400000, guid: 451e4b89cb180514b8b391b3e656ec53, type: 2}
+  - {fileID: 11400000, guid: 488d611f4a82ad446b8a6aa5b4dbb6d8, type: 2}
+  infusion: 3
+  relevantFlavourFlag: 2
+  relevantFlavourFlag2: 4
+  relevantFlavourFlag3: 0
+  temperature: 0
+  strength: 0
+  sweetness: 0
+  teaType: 1
+  nuttiness: 0
+  syruped: 0
+  waters: 0
+  milks: 0
+  balls: 0
+  alcoholic: 0
+  perfumed: 0

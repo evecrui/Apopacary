@@ -60,7 +60,7 @@ public class PlayerInventory : MonoBehaviour
             Ingredient hoveringIng = NameToIngredient[hoveringShelf.name.Replace("Drawer", "")];
             GameObject ingObj = Instantiate(hoveringIng.Prefab);
             ingObj.name = hoveringIng.Name;
-            hoveringIng.AddAmount(-hoveringIng.BundleSize);
+            hoveringIng.AddAmount(-1);
             hoveringIng.Shelf.GetComponentInChildren<TextMeshProUGUI>().text = hoveringIng.AmountHeld.ToString();
             GetComponent<Interactable>().Interact(ingObj);
         }
@@ -84,47 +84,6 @@ public class PlayerInventory : MonoBehaviour
     }
 
     public void AddIngredient(string name) {
-        AddIngredient(NameToIngredient[name], NameToIngredient[name].BundleSize);
+        AddIngredient(NameToIngredient[name], 1);
     }
-}
-
-[CreateAssetMenu(fileName = "NewIngredientData", menuName = "ScriptableObjects/IngredientData", order = 1)]
-public class Ingredient : ScriptableObject
-{
-    public string Name;
-    public string Description;
-    public int AmountHeld;
-    public int BundleSize;
-    private Vector2Int ShelfPos;
-    public GameObject Shelf;
-    public GameObject Prefab;
-    public bool FoundAny;
-    public List<string> AlterationKeys;
-    public List<Ingredient> AlterationValues;
-    public Dictionary<string, Ingredient> Alterations;
-
-    public void PrepIngredient()
-    {
-        AmountHeld = 0;
-        FoundAny = false;
-        string aKey;
-        Ingredient aValue;
-        Alterations = new Dictionary<string, Ingredient>();
-
-        for (int index = 0; index < AlterationKeys.Count; index++)
-        {
-            aKey = AlterationKeys[index];
-            aValue = AlterationValues[index];
-
-            Alterations[aKey] = aValue;
-        }
-    }
-
-    public void AddAmount(int amount)
-    {
-        AmountHeld += amount;
-    }
-
-    public void SetShelfPos(Vector2Int shelfPos)
-        { ShelfPos = shelfPos; }
 }

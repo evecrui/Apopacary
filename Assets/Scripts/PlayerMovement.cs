@@ -9,6 +9,7 @@ public class PlayerMovement : MonoBehaviour
 {
     public Transform cameraTransform;
     public Transform playerGraphics;
+    public PlayerCamera playerCam;
     public Rigidbody rb;
 
     public Vector2 _moveDelta;
@@ -101,6 +102,7 @@ public class PlayerMovement : MonoBehaviour
         Interactable prevI = PlayerInventory.PI.hoveringInteractable;
         if (i != null && !i.highlighted)
         {
+            lastHoveredFruit = null;
             if (prevI != i)
             {
                 if (prevI != null)
@@ -155,6 +157,8 @@ public class PlayerMovement : MonoBehaviour
             if (!inRangeOptions.Contains(other.gameObject))
                 inRangeOptions.Add(other.gameObject);
             other.gameObject.layer = 3;
+        } else if (other.gameObject.name == "Floor") {
+            playerCam.EnterRoom();
         }
     }
 
@@ -163,6 +167,8 @@ public class PlayerMovement : MonoBehaviour
             if (inRangeOptions.Contains(other.gameObject))
                 inRangeOptions.Remove(other.gameObject);
             other.gameObject.layer = LayerMask.GetMask("Default");
+        } else if (other.gameObject.name == "Floor") {
+            playerCam.ExitRoom();
         }
     }
 }

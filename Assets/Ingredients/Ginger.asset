@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7c8baf8712e7d0408b72f60ef662293, type: 3}
+  m_Name: Ginger
+  m_EditorClassIdentifier: Assembly-CSharp::Ingredient
+  Name: Ginger
+  Description: 
+  AmountHeld: 0
+  Shelf: {fileID: 0}
+  Prefab: {fileID: 394644344704090289, guid: cc48dff76b3903840aba4684b6bed99f, type: 3}
+  FoundAny: 0
+  AlterationKeys:
+  - ChoppingBoard
+  - Grinder
+  - Distillery
+  AlterationValues:
+  - {fileID: 11400000, guid: d38fdf7d72432c943a2f1d1804bbec47, type: 2}
+  - {fileID: 11400000, guid: 0c6093df699080c488bee64e468c003d, type: 2}
+  - {fileID: 11400000, guid: 71ed2c8db5264214bbe8163ad4c8b77c, type: 2}
+  infusion: 0
+  relevantFlavourFlag: 0
+  relevantFlavourFlag2: 0
+  relevantFlavourFlag3: 0
+  temperature: 0
+  strength: 0
+  sweetness: 0
+  teaType: 0
+  nuttiness: 0
+  syruped: 0
+  waters: 0
+  milks: 0
+  balls: 0
+  alcoholic: 0
+  perfumed: 0

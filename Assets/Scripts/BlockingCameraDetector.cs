@@ -22,6 +22,7 @@ public class BlockingCameraDetector : MonoBehaviour
         if (Physics.Raycast(cam.position, dir.normalized, out RaycastHit hit, dir.magnitude, obstructionMask))
         {
             GameObject fade = hit.transform.gameObject;
+            if (fade.name == "Player") return;
             if (fade != currentlyTransparenting)
             {
                 if (currentlyTransparenting != null)
