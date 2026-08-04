@@ -86,6 +86,7 @@ public class Ingredient : ScriptableObject {
     }
 
     public void AddAmount(int amount) {
+        if (!FoundAny) FoundAny = true;
         AmountHeld += amount;
     }
 

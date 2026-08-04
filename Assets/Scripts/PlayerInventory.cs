@@ -21,6 +21,7 @@ public class PlayerInventory : MonoBehaviour
     public GameObject hoveringShelf;
     public Interactable hoveringInteractable;
     public GameObject DrawersParent;
+    private int numIngFound = 0;
 
     private void Start()
     {
@@ -30,14 +31,16 @@ public class PlayerInventory : MonoBehaviour
         foreach (Ingredient ing in Inventory)
         {
             ing.PrepIngredient();
+            GameObject emptyDrawer = null;
             foreach (Transform drawer in DrawersParent.transform.GetComponentsInChildren<Transform>(true))
             {
-                if (drawer.name.Replace("Drawer", "") == ing.Name)
-                {
-                    ing.Shelf = drawer.gameObject;
+                if (drawer.name == "Drawer") {
+                    emptyDrawer = drawer.gameObject;
                     break;
                 }
             }
+            ing.Shelf = emptyDrawer;
+            ing.Shelf.name = ing.Name;
             NameToIngredient.Add(ing.Name, ing);
             i++;
         }
@@ -68,16 +71,11 @@ public class PlayerInventory : MonoBehaviour
 
     public void AddIngredient(Ingredient ingredient, int amount = 1)
     {
-        if (ingredient.AmountHeld == 0)
+        if (!ingredient.FoundAny)
         {
-            int i = 0;
-            while (i < Inventory.Count && Inventory[i].FoundAny == true) { i++; }
-            int j = Inventory.IndexOf(ingredient);
-            Ingredient temp = Inventory[i];
-            Inventory[i] = ingredient;
-            Inventory[j] = temp;
             ingredient.Shelf.SetActive(true);
-            ingredient.Shelf.GetComponent<RectTransform>().anchoredPosition = new Vector2(xShelfPositions[i % 3], yShelfPositions[i / 7]);
+            ingredient.Shelf.GetComponent<RectTransform>().anchoredPosition = new Vector2(xShelfPositions[numIngFound % 3], yShelfPositions[numIngFound / 7]);
+            numIngFound++;
         }
         ingredient.AddAmount(amount);
         ingredient.Shelf.GetComponentInChildren<TextMeshProUGUI>().text = ingredient.AmountHeld.ToString();

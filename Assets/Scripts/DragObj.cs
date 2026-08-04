@@ -54,6 +54,7 @@ public class DragObj : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit))
         {
+            Debug.Log("Hitting " + hit.transform.name);
             Interactable i = hit.transform.GetComponent<Interactable>();
             if (hoveredInteractable != i && hoveredInteractable != null)
                 hoveredInteractable.UnHover();
@@ -87,11 +88,12 @@ public class DragObj : MonoBehaviour
         rb.constraints = (RigidbodyConstraints)126; // no rotation
         if (GetComponent<Collider>() != null)
             GetComponent<Collider>().enabled = false;
+        GetComponent<ParticleSystem>().Play();
         //Grab
         while (isDragging) {
             //Dragging
             transform.position = mouseWorldPos + offset;
-            transform.position = new Vector3(transform.position.x, transform.position.y, playerTrans.position.z + playerZOffset);
+            transform.position = new Vector3(transform.position.x, Mathf.Clamp(transform.position.y, 0, transform.position.y), playerTrans.position.z + playerZOffset);
             if (mousePos.x < 0)
                 mr.enabled = false;
             else mr.enabled = true;
@@ -101,6 +103,7 @@ public class DragObj : MonoBehaviour
             yield return null;
         }
         //Drop
+        GetComponent<ParticleSystem>().Stop();
         if (mousePos.x < 0)
         {
             PlayerInventory.PI.draggedIngredient = null;

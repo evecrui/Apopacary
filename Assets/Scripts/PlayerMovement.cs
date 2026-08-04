@@ -1,5 +1,8 @@
 using NUnit.Framework;
+using System;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
@@ -22,8 +25,11 @@ public class PlayerMovement : MonoBehaviour
     private Camera cam;
     [SerializeField] private InputAction screenPos;
 
-    private Transform lastHoveredFruit;
+    private Transform lastHoveredngredient;
+    private Transform tooltippedObject;
     private int ogHoveredlayermask;
+    public RectTransform tooltipTrans;
+    public TextMeshProUGUI tooltipText;
 
     private void Awake()
     {
@@ -87,22 +93,24 @@ public class PlayerMovement : MonoBehaviour
     {
         if (ing != null)
         {
-            if (ing != lastHoveredFruit)
+            if (ing != lastHoveredngredient)
             {
-                if (lastHoveredFruit != null)
-                    Unhover(lastHoveredFruit);
-                lastHoveredFruit = ing;
-                Hover(lastHoveredFruit);
+                if (lastHoveredngredient != null)
+                    Unhover(lastHoveredngredient);
+                lastHoveredngredient = ing;
+                Hover(lastHoveredngredient);
+                tooltippedObject = lastHoveredngredient;
             }
-        } else if (lastHoveredFruit != null)
+        } else if (lastHoveredngredient != null)
         {
-            Unhover(lastHoveredFruit);
-            lastHoveredFruit = null;
+            Unhover(lastHoveredngredient);
+            lastHoveredngredient = null;
+            tooltippedObject = null;
         }
         Interactable prevI = PlayerInventory.PI.hoveringInteractable;
         if (i != null && !i.highlighted)
         {
-            lastHoveredFruit = null;
+            lastHoveredngredient = null;
             if (prevI != i)
             {
                 if (prevI != null)
@@ -110,11 +118,23 @@ public class PlayerMovement : MonoBehaviour
                 PlayerInventory.PI.hoveringInteractable = i;
             }
             i.Hover();
+            tooltippedObject = i.transform;
         }
         else if (i == null && prevI != null)
         {
             prevI.UnHover();
             PlayerInventory.PI.hoveringInteractable = null;
+            if (lastHoveredngredient == null)
+                tooltippedObject = null;
+        }
+
+        if (tooltippedObject != null) {
+            Regex r = new Regex(@"(?!^)(?=[A-Z])");
+            tooltipText.text = r.Replace(tooltippedObject.name, " ");
+            tooltipTrans.gameObject.SetActive(true);
+            tooltipTrans.position = mousePos + new Vector3(520, 0, 0);
+        } else {
+            tooltipTrans.gameObject.SetActive(false);
         }
     }
 

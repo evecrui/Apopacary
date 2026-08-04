@@ -19,8 +19,7 @@ public class Interactable : MonoBehaviour
         heldIngredient = null;
     }
 
-    public void Hover()
-    {
+    public void Hover() {
         highlighted = true;
         if (gameObject.layer != 3)
             layermask = gameObject.layer;
@@ -33,6 +32,7 @@ public class Interactable : MonoBehaviour
 
     public void UnHover()
     {
+        Debug.Log("Unhover " + name);
         highlighted = false;
         gameObject.layer = layermask;
         foreach (Transform t in transform.GetComponentsInChildren<Transform>())
