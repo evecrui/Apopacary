@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "NewIngredientData", menuName = "ScriptableObjects/IngredientData", order = 1)]
@@ -28,8 +30,13 @@ public class Ingredient : ScriptableObject {
     public Balls balls;
     public bool alcoholic;
     public bool perfumed;
+    public bool infusable;
+    private List<Enum> allEnums;
+    public List<Enum> preDrinkVars;
+    private (Drink.Flavour, Drink.Strength) vars;
+    public Dictionary<GameObject, Infusion> infusedCopies;
 
-#region Enums
+    #region Enums
     public enum FlavourVariable {
         None,
         Temperature,
@@ -58,19 +65,42 @@ public class Ingredient : ScriptableObject {
     }
 
     public enum Temperature {
-        Hot, Cold, Iced
+        Hot, Cold, Iced, None
     }
-    public enum Strength { Weak, Strong, ExtraStrong }
-    public enum Sweetness { NotSweet, HoneySweet, NectarSweet }
-    public enum TeaType { Leafy, Floral, Fruity, Ginger, Nettles, Juice, Milk, Milkshake }
+    public enum Strength { Weak, Strong, ExtraStrong, None }
+    public enum Sweetness { None, HoneySweet, NectarSweet }
+    public enum TeaType { Leafy, Floral, Fruity, Ginger, Nettles, Juice, Milk, Milkshake, None }
     public enum Nuttiness { Nutty, Woody }
-    public enum Syruped { CaramelSyrup, BerrySyrup }
-    public enum Waters { Moon, Rain, Clear }
-    public enum Milks { Cow, Nut }
-    public enum Balls { HokeyPokey, ChoppedLeaves, ChoppedFlowers, ChoppedNuts, ChoppedBerries, ChoppedGinger, ChoppedNettles }
+    public enum Syruped { CaramelSyrup, BerrySyrup, None }
+    public enum Waters { Moon, Rain, Clear, None }
+    public enum Milks { Cow, Nut, None }
+    public enum Balls { None, HokeyPokey, ChoppedLeaves, ChoppedFlowers, ChoppedNuts, ChoppedBerries, ChoppedGinger, ChoppedNettles }
+    public enum Alcohol { None, Alcohol };
+    public enum Perfumed { None, Perfumed };
     #endregion
 
     public void PrepIngredient() {
+        allEnums = new List<Enum>() { temperature, strength, sweetness, teaType, nuttiness, syruped, waters, milks, balls };
+        preDrinkVars = new List<Enum>();
+        if (relevantFlavourFlag != FlavourVariable.None) {
+            int var1 = (int)relevantFlavourFlag-1;
+            preDrinkVars.Add(var1 < 9 ? allEnums[var1] : var1 < 10 ? Alcohol.Alcohol : Perfumed.Perfumed);
+        }
+        if (relevantFlavourFlag2 != FlavourVariable.None) {
+            int var2 = (int)relevantFlavourFlag2-1;
+            preDrinkVars.Add(var2 < 9 ? allEnums[var2] : var2 < 10 ? Alcohol.Alcohol : Perfumed.Perfumed);
+        }
+        if (relevantFlavourFlag3 != FlavourVariable.None) {
+            int var3 = (int)relevantFlavourFlag3 - 1;
+            preDrinkVars.Add(var3 < 9 ? allEnums[var3] : var3 < 10 ? Alcohol.Alcohol : Perfumed.Perfumed);
+        }
+
+        if (infusable) infusion = Infusion.None;
+        if (infusedCopies != null)
+            infusedCopies.Clear();
+        infusedCopies = new Dictionary<GameObject, Infusion>();
+
+
         AmountHeld = 0;
         FoundAny = false;
         string aKey;
@@ -82,7 +112,17 @@ public class Ingredient : ScriptableObject {
             aValue = AlterationValues[index];
 
             Alterations[aKey] = aValue;
-        }
+        }        
+    }
+
+    public void AddInfusion(Infusion infusion, GameObject ingredient) {
+        infusedCopies.Add(ingredient, infusion);
+    }
+
+    public Infusion CheckInfusion(GameObject ingredient) {
+        if (!infusedCopies.ContainsKey(ingredient))
+            return Infusion.None;
+        return infusedCopies[ingredient];
     }
 
     public void AddAmount(int amount) {

@@ -18,7 +18,6 @@ MonoBehaviour:
   Shelf: {fileID: 0}
   Prefab: {fileID: 5334287388179263130, guid: 2e4ae640549ca664e99dbef440429cf6, type: 3}
   FoundAny: 0
-  StoredInShelves: 1
   AlterationKeys:
   - Oven
   - Stove
@@ -42,3 +41,4 @@ MonoBehaviour:
   balls: 0
   alcoholic: 0
   perfumed: 0
+  infusable: 1

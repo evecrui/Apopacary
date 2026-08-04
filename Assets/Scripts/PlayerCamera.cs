@@ -8,6 +8,12 @@ public class PlayerCamera : MonoBehaviour
     public float _scrollSpeed;
     public bool inRoom = false;
     public float outRoomScrollPos;
+    private Transform ogParent;
+    public Vector3 localHeldPos;
+    public Vector3 oglocalHeldPos;
+    public Quaternion localHeldRot;
+    public Quaternion oglocalHeldRot;
+
 
     public void OnScroll(InputAction.CallbackContext context) {
         if (inRoom) {
@@ -21,18 +27,22 @@ public class PlayerCamera : MonoBehaviour
         transform.Translate(context.ReadValue<float>() * transform.forward * _scrollSpeed); 
     }
 
-    public void EnterRoom() {
+    public void EnterRoom(GameObject floor) {
         if (inRoom) return;
         inRoom = true;
-        outRoomScrollPos = _scrollDelta;
-        transform.Translate((5 - outRoomScrollPos) * transform.forward * _scrollSpeed);
-        _scrollDelta = 5;
+        oglocalHeldPos = transform.localPosition;
+        oglocalHeldRot = transform.localRotation;
+        ogParent = transform.parent;
+        transform.parent = floor.transform;
+        transform.localPosition = localHeldPos;
+        transform.localRotation = localHeldRot;
     }
 
     public void ExitRoom() {
         if (!inRoom) return;
         inRoom = false;
-        transform.Translate((outRoomScrollPos - 5) * transform.forward * _scrollSpeed);
-        _scrollDelta = outRoomScrollPos;
+        transform.parent = ogParent;
+        transform.localPosition = oglocalHeldPos;
+        transform.localRotation = oglocalHeldRot;
     }
 }

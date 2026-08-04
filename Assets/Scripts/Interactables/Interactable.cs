@@ -13,6 +13,7 @@ public class Interactable : MonoBehaviour
     public bool highlighted;
     public AudioSource source;
     public List<AudioClip> clips;
+    bool coroutineRunning;
 
 
     public virtual void Interact(GameObject ingredient) {
@@ -29,7 +30,7 @@ public class Interactable : MonoBehaviour
             layermask = gameObject.layer;
         foreach (Transform t in transform.GetComponentsInChildren<Transform>())
         {
-            if (t.name.StartsWith("Transparent"))
+            if (t.name.StartsWith("Transparent") || t.name == "Infuser")
                 continue;
             t.gameObject.layer = 3;
         }
@@ -56,19 +57,31 @@ public class Interactable : MonoBehaviour
         Debug.Log("Interact with empty hand on " + name + "!!");
         if (heldIngredient)
         {
+            if (coroutineRunning) {
+                coroutineRunning = false;
+                StopCoroutine(nameof(WaitTillSFXFinished));
+                SwitchObjs();
+            }
+            coroutineRunning = true;
             if (clip == null)
                 StartCoroutine(WaitTillSFXFinished(0));
             else
                 StartCoroutine(WaitTillSFXFinished(clip.length));
-
         }
+        PlayerInventory.PI.GetComponent<PlayerMovement>().UpdateHovered();
     }
 
     private IEnumerator WaitTillSFXFinished(float delay) {
         yield return new WaitForSeconds(delay);
+        SwitchObjs();
+    }
 
+    private void SwitchObjs() {
         PlayerInventory PI = PlayerInventory.PI;
-        GameObject prefab = PI.NameToIngredient[heldIngredient.name].Alterations[name].Prefab;
+        if (heldIngredient == null) return;
+        Ingredient oldIng = PI.NameToIngredient[heldIngredient.name];
+        if (!oldIng.Alterations.ContainsKey(name)) return;
+        GameObject prefab = oldIng.Alterations[name].Prefab;
         GameObject newVersion = Instantiate(prefab);
         newVersion.transform.position = heldIngredient.transform.position;
         newVersion.transform.rotation = heldIngredient.transform.rotation;
@@ -79,5 +92,7 @@ public class Interactable : MonoBehaviour
 
         if (!PI.NameToIngredient[prefab.name].Alterations.ContainsKey(name))
             UnHover();
+        PlayerInventory.PI.GetComponent<PlayerMovement>().UpdateHovered();
+        coroutineRunning = false;
     }
 }

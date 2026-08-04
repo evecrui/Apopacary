@@ -1,18 +1,33 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
-public class ChoppingBoardInteractable : Interactable
+public class InfuserInteractable : Interactable
 {
     Rigidbody rb;
     public Vector3 relativeHeldPos;
 
     public override void Interact(GameObject ingredient)
     {
+        Ingredient ing = PlayerInventory.PI.NameToIngredient[ingredient.name];
+        Ingredient ogIng = null;
         if (heldIngredient != null)
+            ogIng = PlayerInventory.PI.NameToIngredient[heldIngredient.name];
+
+        if (ogIng != null && ogIng.infusable) {
+            if (ing.infusable || ing.infusion == Ingredient.Infusion.None)
+                Release(heldIngredient);
+            else {
+                ogIng.AddInfusion(ing.infusion, heldIngredient);
+                ingredient.SetActive(false);
+            }
+            return;
+        }
+        else if (ogIng != null)
             Release(heldIngredient);
-
+            
         ingredient.GetComponent<DragObj>().holdingInteractable = this;
-
         heldIngredient = ingredient;
+
 
         rb = heldIngredient.GetComponent<Rigidbody>();
         rb.useGravity = false;
