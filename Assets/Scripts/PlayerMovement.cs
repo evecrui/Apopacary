@@ -23,6 +23,7 @@ public class PlayerMovement : MonoBehaviour
 
     public List<GameObject> inRangeOptions;
     private Vector3 mousePos;
+    private Vector3 standardMousePos;
     private Camera cam;
     [SerializeField] private InputAction screenPos;
 
@@ -38,7 +39,8 @@ public class PlayerMovement : MonoBehaviour
         screenPos.Enable();
         screenPos.performed += context =>
         {
-            mousePos = context.ReadValue<Vector2>() - new Vector2(520, 0);
+            standardMousePos = context.ReadValue<Vector2>();
+            mousePos = (Vector2)standardMousePos - new Vector2(520, 0);
             mousePos.x = Mathf.Clamp(mousePos.x, -1, 1400);
             Interactable i = CheckHovered();
             Transform ing = CheckHoveredIngredients();
@@ -136,15 +138,21 @@ public class PlayerMovement : MonoBehaviour
             if (lastHoveredngredient == null)
                 tooltippedObject = null;
         }
+        // Drawer UI Checking for tooltips
+        GameObject shelf = PlayerInventory.PI.hoveringShelf;
+        if (shelf != null)
+            tooltippedObject = shelf.transform;
+        else if (tooltippedObject != null && tooltippedObject.GetComponent<DragUI>() != null)
+            tooltippedObject = null;
 
         if (tooltippedObject != null) {
             Regex r = new Regex(@"(?!^)(?=[A-Z])");
             string extraLines = "\n";
-            if (lastHoveredngredient == null)
+            if (tooltippedObject.GetComponent<Interactable>() != null)
                 extraLines = PlayerInventory.PI.hoveringInteractable.heldIngredient == null ?
                     "" : "\nHolding: " + r.Replace(PlayerInventory.PI.hoveringInteractable.heldIngredient.name, " ");
-            else if (lastHoveredngredient.name == "Drink") {
-                Drink drink = lastHoveredngredient.GetComponent<Drink>();
+            else if (tooltippedObject.name == "Drink") {
+                Drink drink = tooltippedObject.GetComponent<Drink>();
                 extraLines += drink.GetDrinkComponents();
                 if (drink.flavours.Count > 0) {
                     extraLines += "\nFlavours: ";
@@ -153,19 +161,21 @@ public class PlayerMovement : MonoBehaviour
                     if (extraLines.Length > 2)
                         extraLines = extraLines.Substring(0, extraLines.Length - 2);
                 }
-            } else { 
-                Ingredient hovering = PlayerInventory.PI.NameToIngredient[lastHoveredngredient.name];
+            }
+            else {
+                Ingredient hovering = PlayerInventory.PI.NameToIngredient[tooltippedObject.name];
                 foreach (Enum e in hovering.preDrinkVars)
                     extraLines += e.ToSafeString() + ", ";
                 if (extraLines.Length > 2)
                     extraLines = extraLines.Substring(0, extraLines.Length - 2);
-                if (hovering.CheckInfusion(lastHoveredngredient.gameObject) != Ingredient.Infusion.None && hovering.infusable)
-                    extraLines += "\nInfusion: " + hovering.CheckInfusion(lastHoveredngredient.gameObject);
+                if (hovering.CheckInfusion(tooltippedObject.gameObject) != Ingredient.Infusion.None && hovering.infusable)
+                    extraLines += "\nInfusion: " + hovering.CheckInfusion(tooltippedObject.gameObject);
             }
             tooltipText.text = r.Replace(tooltippedObject.name, " ") + extraLines;
             tooltipTrans.gameObject.SetActive(true);
-            tooltipTrans.position = mousePos + new Vector3(520, 0, 0);
-        } else {
+            tooltipTrans.position = standardMousePos;
+        }
+        else {
             tooltipTrans.gameObject.SetActive(false);
         }
     }

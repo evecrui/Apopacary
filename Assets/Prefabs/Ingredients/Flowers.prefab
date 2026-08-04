@@ -12,10 +12,10 @@ GameObject:
   - component: {fileID: 4052371136830959923}
   - component: {fileID: 5559133578060300587}
   - component: {fileID: 8937432023812806345}
-  - component: {fileID: 5395163885983894225}
   - component: {fileID: 881490919795906114}
   - component: {fileID: 1640599726520501838}
   - component: {fileID: -5733537386642432134}
+  - component: {fileID: 2717408053861655264}
   m_Layer: 0
   m_Name: Flowers
   m_TagString: Ingredient
@@ -123,28 +123,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 126
   m_CollisionDetection: 0
---- !u!64 &5395163885983894225
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2312114675844726382}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -2968282539635504627, guid: aaa8a5a1ff61b534aa9a1be58e1a6934, type: 3}
 --- !u!114 &881490919795906114
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5007,3 +4985,24 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     vectorLabel1_3: W
+--- !u!135 &2717408053861655264
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2312114675844726382}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.25373653
+  m_Center: {x: 0, y: -0.000000059604645, z: 0}

@@ -10,6 +10,6 @@ public class DrinkInteractable : Interactable
         Ingredient ing = PlayerInventory.PI.NameToIngredient[ingredient.name];
         ingredient.SetActive(false);
 
-        drink.AddIngredient(ing);
+        drink.AddIngredient(ing, ingredient);
     }
 }

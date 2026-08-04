@@ -20,7 +20,7 @@ MonoBehaviour:
   FoundAny: 0
   AlterationKeys: []
   AlterationValues: []
-  infusion: 7
+  infusion: 8
   relevantFlavourFlag: 0
   relevantFlavourFlag2: 0
   relevantFlavourFlag3: 0
@@ -35,3 +35,4 @@ MonoBehaviour:
   balls: 0
   alcoholic: 0
   perfumed: 0
+  infusable: 0

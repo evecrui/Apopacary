@@ -32,16 +32,17 @@ public class Drink : MonoBehaviour {
         Perfumed,
         Nutty,
         Woody,
+        Nettles,
         Celestial,
         Rained,
         Clear,
         Fruity,
         Ginger,
-        Milky,
+        Milk,
         Honey,
         Nectar,
         Thick,
-        Juicey,
+        Juice,
         Alcohol,
         Caramel
     }
@@ -51,8 +52,74 @@ public class Drink : MonoBehaviour {
         Weak, Strong, ExtraStrong
     }
 
-    public void AddIngredient(Ingredient ingredient) {
+    public void AddIngredient(Ingredient ingredient, GameObject ingredientObj) {
+        if (CheckFlags(ingredient, Ingredient.FlavourVariable.Perfumed) && !ContainsOfAnyStrength(Flavour.Perfumed))
+            flavours.Add((Flavour.Perfumed, Strength.Standard));
+        if (CheckFlags(ingredient, Ingredient.FlavourVariable.Alcohol) && !ContainsOfAnyStrength(Flavour.Alcohol))
+            flavours.Add((Flavour.Alcohol, Strength.Standard));
+        if (ingredient.CheckInfusion(ingredientObj) != Ingredient.Infusion.None) {
+            if (!ContainsOfGreaterStrength((Flavour)ingredient.CheckInfusion(ingredientObj), Strength.Weak))
+                flavours.Add(((Flavour)ingredient.CheckInfusion(ingredientObj), Strength.Weak));
+        }
+        if (CheckFlags(ingredient, Ingredient.FlavourVariable.Strength)) {
+            bool nuttiness = CheckFlags(ingredient, Ingredient.FlavourVariable.Nuttiness);
+            Flavour f = nuttiness ? (Flavour)ingredient.nuttiness : (Flavour)ingredient.teaType;
+            if (!ContainsOfGreaterStrength(f, (Strength)ingredient.strength))
+                flavours.Add((f, (Strength)ingredient.strength));
+        }
 
+
+        if (CheckFlags(ingredient, Ingredient.FlavourVariable.TeaType)) {
+            waterFlav = (ingredient.strength, ingredient.teaType);
+        }
+        if (CheckFlags(ingredient, Ingredient.FlavourVariable.Balls)) {
+            ball = ingredient.balls;
+        }
+        if (CheckFlags(ingredient, Ingredient.FlavourVariable.Waters)) {
+            water = ingredient.waters;
+        }
+        if (CheckFlags(ingredient, Ingredient.FlavourVariable.Sweetness)) {
+            sweetness = ingredient.sweetness;
+            if (ingredient.CheckInfusion(ingredientObj) != Ingredient.Infusion.None) {
+                sweetnessInfusion = ingredient.CheckInfusion(ingredientObj);
+            }
+        }
+        if (CheckFlags(ingredient, Ingredient.FlavourVariable.Milks)) {
+            milk = ingredient.milks;
+            if (ingredient.CheckInfusion(ingredientObj) != Ingredient.Infusion.None) {
+                sweetnessInfusion = ingredient.CheckInfusion(ingredientObj);
+            }
+        }
+        if (CheckFlags(ingredient, Ingredient.FlavourVariable.Syruped)) {
+            syrup = ingredient.syruped;
+        }
+    }
+
+    private bool CheckFlags(Ingredient ingredient, Ingredient.FlavourVariable flag) {
+        return ingredient.relevantFlavourFlag == flag ||
+            ingredient.relevantFlavourFlag2 == flag ||
+            ingredient.relevantFlavourFlag3 == flag;
+    }
+
+    private bool ContainsOfGreaterStrength(Flavour flav, Strength s) {
+        foreach (var item in flavours) {
+            if (item.Item1 == flav) {
+                if (item.Item2 == s || (int)item.Item2 > (int)s)
+                    return true;
+                else {
+                    flavours.Remove(item);
+                    return false;
+                }
+            }
+        }
+        return false;
+    }
+
+    private bool ContainsOfAnyStrength(Flavour flav) {
+        foreach (var item in flavours) {
+            if (item.Item1 == flav) return true;
+        }
+        return false;
     }
 
     public string GetDrinkComponents() {
