@@ -10,7 +10,6 @@ public class Ingredient : ScriptableObject {
     public GameObject Shelf;
     public GameObject Prefab;
     public bool FoundAny;
-    public bool StoredInShelves;
     public List<string> AlterationKeys;
     public List<Ingredient> AlterationValues;
     public Dictionary<string, Ingredient> Alterations;

@@ -52,7 +52,7 @@ public class PlayerInventory : MonoBehaviour
             hoveringInteractable.InteractEmptyHand();
         }
         else if (context.started && draggedIngredient != null) {
-            if (draggedIngredient.tag == "Ingredient" && NameToIngredient[draggedIngredient.name].StoredInShelves) {
+            if (draggedIngredient.tag == "Ingredient") {
                 AddIngredient(draggedIngredient.name);
                 StopCoroutine(draggedIngredient.GetComponent<DragObj>().Drag());
                 draggedIngredient.SetActive(false);
