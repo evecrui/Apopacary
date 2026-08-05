@@ -1,39 +1,72 @@
+using System.Net.NetworkInformation;
 using Unity.VisualScripting;
 using UnityEngine;
 
 public class InfuserInteractable : Interactable
 {
-    Rigidbody rb;
-    public Vector3 relativeHeldPos;
-
-    public override void Interact(GameObject ingredient)
-    {
-        Ingredient ing = PlayerInventory.PI.NameToIngredient[ingredient.name];
-        Ingredient ogIng = null;
-        if (heldIngredient != null)
-            ogIng = PlayerInventory.PI.NameToIngredient[heldIngredient.name];
-
-        if (ogIng != null && ogIng.infusable) {
-            if (ing.infusable || ing.infusion == Ingredient.Infusion.None)
-                Release(heldIngredient);
-            else {
-                ogIng.AddInfusion(ing.infusion, heldIngredient);
-                ingredient.SetActive(false);
-            }
-            return;
+    public override void InteractEmptyHand() {
+        AudioClip clip = null;
+        if (source != null) {
+            clip = clips[Random.Range(0, clips.Count)];
+            source.PlayOneShot(clip);
         }
-        else if (ogIng != null)
-            Release(heldIngredient);
-            
-        ingredient.GetComponent<DragObj>().holdingInteractable = this;
-        heldIngredient = ingredient;
+        Debug.Log("Interact with empty hand on " + name + "!!");
+        if (heldIngredient != null && heldLiquidIngredient != null) {
+            if (coroutineRunning) {
+                coroutineRunning = false;
+                StopCoroutine(nameof(WaitTillSFXFinished));
+                SwitchObjs();
+            }
+            coroutineRunning = true;
+            if (clip == null)
+                StartCoroutine(WaitTillSFXFinished(0));
+            else
+                StartCoroutine(WaitTillSFXFinished(clip.length));
+        }
+        PlayerInventory.PI.GetComponent<PlayerMovement>().UpdateHovered();
+    }
+
+    public override void SwitchObjs() {
+        if (inventory == null)
+            inventory = PlayerInventory.PI;
+        Ingredient liquid = inventory.NameToIngredient[heldLiquidIngredient.name];
+        Ingredient solid = inventory.NameToIngredient[heldIngredient.name];
+        if (liquid != null && liquid.infusable && solid.infusion != Ingredient.Infusion.None) {
+
+            liquid.AddInfusion(solid.infusion, heldLiquidIngredient);
+            heldIngredient.SetActive(false);
+            heldIngredient = null;
+            return;
+        } else if (liquid != null && liquid.Name.EndsWith("Water") && 
+                CheckFlags(solid, Ingredient.FlavourVariable.TeaType) && solid.name.StartsWith("Dried")) {
+            liquid.AddTea(solid.teaType, heldLiquidIngredient);
+            heldIngredient.SetActive(false);
+            heldIngredient = null;
+        }
 
 
-        rb = heldIngredient.GetComponent<Rigidbody>();
-        rb.useGravity = false;
-        rb.constraints = (RigidbodyConstraints)126; // no rotation
+        if (heldIngredient == null) return;
+        Ingredient oldIng = inventory.NameToIngredient[heldIngredient.name];
+        if (!oldIng.Alterations.ContainsKey(name)) return;
+        GameObject prefab = oldIng.Alterations[name].Prefab;
+        GameObject newVersion = Instantiate(prefab);
+        newVersion.transform.position = heldIngredient.transform.position;
+        newVersion.transform.rotation = heldIngredient.transform.rotation;
+        newVersion.transform.parent = heldIngredient.transform.parent;
+        newVersion.name = prefab.name;
+        heldIngredient.SetActive(false);
+        heldIngredient = newVersion;
 
-        heldIngredient.transform.position = transform.TransformPoint(relativeHeldPos);
+        if (!inventory.NameToIngredient[prefab.name].Alterations.ContainsKey(name))
+            UnHover();
+        inventory.GetComponent<PlayerMovement>().UpdateHovered();
+        coroutineRunning = false;
+    }
+
+    private bool CheckFlags(Ingredient ingredient, Ingredient.FlavourVariable flag) {
+        return ingredient.relevantFlavourFlag == flag ||
+            ingredient.relevantFlavourFlag2 == flag ||
+            ingredient.relevantFlavourFlag3 == flag;
     }
 
     public override void Release(GameObject ingredient)

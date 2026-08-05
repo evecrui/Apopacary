@@ -5,6 +5,7 @@ using System.Text.RegularExpressions;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEditor;
+using UnityEditor.ShaderKeywordFilter;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using static UnityEngine.Rendering.DebugUI;
@@ -78,9 +79,7 @@ public class PlayerMovement : MonoBehaviour
         if (Physics.Raycast(ray, out hit))
         {
             Interactable i = hit.transform.GetComponent<Interactable>();
-            if (i == null || !i.emptyHandInteractable || (i.needHoldIngToInteractEmptyHanded && i.heldIngredient != null)
-                || (i.heldIngredient != null && !PlayerInventory.PI.NameToIngredient[i.heldIngredient.name].Alterations.ContainsKey(i.name))
-                || Vector3.Distance(hit.transform.position, transform.position) >= 3)
+            if ((i != null && !i.InteractableWithHand()) || Vector3.Distance(hit.transform.position, transform.position) >= 3)
                 return null;
             return i;
         }
@@ -148,10 +147,7 @@ public class PlayerMovement : MonoBehaviour
         if (tooltippedObject != null) {
             Regex r = new Regex(@"(?!^)(?=[A-Z])");
             string extraLines = "\n";
-            if (tooltippedObject.GetComponent<Interactable>() != null)
-                extraLines = PlayerInventory.PI.hoveringInteractable.heldIngredient == null ?
-                    "" : "\nHolding: " + r.Replace(PlayerInventory.PI.hoveringInteractable.heldIngredient.name, " ");
-            else if (tooltippedObject.name == "Drink") {
+            if (tooltippedObject.name == "Drink") {
                 Drink drink = tooltippedObject.GetComponent<Drink>();
                 extraLines += drink.GetDrinkComponents();
                 if (drink.flavours.Count > 0) {
@@ -160,6 +156,23 @@ public class PlayerMovement : MonoBehaviour
                         extraLines += e.Item2 + " " + e.Item1 + ", ";
                     if (extraLines.Length > 2)
                         extraLines = extraLines.Substring(0, extraLines.Length - 2);
+                }
+            }
+            else if (tooltippedObject.GetComponent<Interactable>() != null) {
+                Interactable interactable = tooltippedObject.GetComponent<Interactable>();
+                GameObject solid = interactable.heldIngredient;
+                GameObject liquid = interactable.heldLiquidIngredient;
+                extraLines += (solid != null || liquid != null) ? "Holding: " + (solid != null ? r.Replace(solid.name, " ") : r.Replace(liquid.name, " ")) 
+                            : "";
+                if (solid != null && liquid != null)
+                    extraLines += ", " + r.Replace(liquid.name, " ");
+            }
+            else if (tooltippedObject.name == "Bucket") {
+                Bucket bucket = tooltippedObject.GetComponent<Bucket>();
+                extraLines += "Contains: " + (bucket.empty ? "Nothing" : r.Replace(bucket.liquidIngredient.name, " "));
+                if (!bucket.empty) {
+                    Ingredient liquid = PlayerInventory.PI.NameToIngredient[bucket.liquidIngredient.name];
+                    extraLines += liquid.CheckInfusion(bucket.liquidIngredient) != Ingredient.Infusion.None ? "\nInfusion: " + liquid.CheckInfusion(bucket.liquidIngredient) : "";
                 }
             }
             else {

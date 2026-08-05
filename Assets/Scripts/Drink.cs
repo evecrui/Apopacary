@@ -12,6 +12,7 @@ public class Drink : MonoBehaviour {
     Ingredient.Infusion milkInfusion;
     Ingredient.Syruped syrup;
     public List<(Flavour, Strength)> flavours;
+    public bool noLiquid;
 
     private void Start() {
         flavours = new List<(Flavour, Strength)> ();
@@ -53,6 +54,7 @@ public class Drink : MonoBehaviour {
     }
 
     public void AddIngredient(Ingredient ingredient, GameObject ingredientObj) {
+        Debug.Log("Adding ing");
         if (CheckFlags(ingredient, Ingredient.FlavourVariable.Perfumed) && !ContainsOfAnyStrength(Flavour.Perfumed))
             flavours.Add((Flavour.Perfumed, Strength.Standard));
         if (CheckFlags(ingredient, Ingredient.FlavourVariable.Alcohol) && !ContainsOfAnyStrength(Flavour.Alcohol))
@@ -86,8 +88,9 @@ public class Drink : MonoBehaviour {
         }
         if (CheckFlags(ingredient, Ingredient.FlavourVariable.Milks)) {
             milk = ingredient.milks;
+            Debug.Log("Adding milk");
             if (ingredient.CheckInfusion(ingredientObj) != Ingredient.Infusion.None) {
-                sweetnessInfusion = ingredient.CheckInfusion(ingredientObj);
+                milkInfusion = ingredient.CheckInfusion(ingredientObj);
             }
         }
         if (CheckFlags(ingredient, Ingredient.FlavourVariable.Syruped)) {
@@ -132,5 +135,18 @@ public class Drink : MonoBehaviour {
         s += "\nMilk: " + milk + (milkInfusion == Ingredient.Infusion.None ? "" : " infused with " + milkInfusion);
         s += "\nSyrup: " + syrup;
         return s;
+    }
+
+    public void Empty() {
+        temperature = Ingredient.Temperature.None;
+        waterFlav = (Ingredient.Strength.None, Ingredient.TeaType.None);
+        ball = Ingredient.Balls.None;
+        water = Ingredient.Waters.None;
+        sweetness = Ingredient.Sweetness.None;
+        sweetnessInfusion = Ingredient.Infusion.None;
+        milk = Ingredient.Milks.None;
+        milkInfusion = Ingredient.Infusion.None;
+        syrup = Ingredient.Syruped.None;
+        flavours = new List<(Flavour, Strength)>();
     }
 }

@@ -36,3 +36,4 @@ MonoBehaviour:
   alcoholic: 0
   perfumed: 0
   infusable: 1
+  isLiquid: 1

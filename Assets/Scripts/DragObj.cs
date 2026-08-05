@@ -55,6 +55,7 @@ public class DragObj : MonoBehaviour
         if (Physics.Raycast(ray, out hit))
         {
             Interactable i = hit.transform.GetComponent<Interactable>();
+            if (i != null && !i.InteractableWithOtherIng()) return;
             if (hoveredInteractable != i && hoveredInteractable != null)
                 hoveredInteractable.UnHover();
             if (i != null)

@@ -35,6 +35,8 @@ public class Ingredient : ScriptableObject {
     public List<Enum> preDrinkVars;
     private (Drink.Flavour, Drink.Strength) vars;
     public Dictionary<GameObject, Infusion> infusedCopies;
+    public Dictionary<GameObject, TeaType> teadCopies;
+    public bool isLiquid = false;
 
     #region Enums
     public enum FlavourVariable {
@@ -99,6 +101,9 @@ public class Ingredient : ScriptableObject {
         if (infusedCopies != null)
             infusedCopies.Clear();
         infusedCopies = new Dictionary<GameObject, Infusion>();
+        if (teadCopies != null)
+            teadCopies.Clear();
+        teadCopies = new Dictionary<GameObject, TeaType>();
 
 
         AmountHeld = 0;
@@ -123,6 +128,16 @@ public class Ingredient : ScriptableObject {
         if (!infusedCopies.ContainsKey(ingredient))
             return Infusion.None;
         return infusedCopies[ingredient];
+    }
+
+    public void AddTea(TeaType type, GameObject ingredient) {
+        teadCopies.Add(ingredient, type);
+    }
+
+    public TeaType CheckTea(GameObject ingredient) {
+        if (!teadCopies.ContainsKey(ingredient))
+            return TeaType.None;
+        return teadCopies[ingredient];
     }
 
     public void AddAmount(int amount) {

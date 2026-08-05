@@ -2,13 +2,22 @@ using UnityEngine;
 
 public class ChoppingBoardInteractable : Interactable
 {
-    Rigidbody rb;
-    public Vector3 relativeHeldPos;
 
     public override void Interact(GameObject ingredient)
     {
-        if (heldIngredient != null)
-            Release(heldIngredient);
+        Ingredient newIng = PlayerInventory.PI.NameToIngredient[ingredient.name];
+        if (heldIngredient != null) {
+            Ingredient oldIng = PlayerInventory.PI.NameToIngredient[heldIngredient.name];
+            if (!oldIng.isLiquid)
+                Release(heldIngredient);
+            else if (newIng.isLiquid)
+                return;
+            else if (oldIng.name.EndsWith("Water") && canHoldLiquidAndSolid) {
+                heldLiquidIngredient = heldIngredient;
+                heldIngredient = ingredient;
+            }
+
+        }
 
         ingredient.GetComponent<DragObj>().holdingInteractable = this;
 

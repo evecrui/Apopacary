@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class PlayerInteractHold : Interactable
 {
-    Rigidbody rb;
     Transform ogParent;
 
     public override void Interact(GameObject ingredient)
