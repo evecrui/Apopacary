@@ -93,17 +93,22 @@ public class Interactable : MonoBehaviour
         if (inventory == null)
             inventory = PlayerInventory.PI;
 
-        if (inventory.draggedIngredient.name == "Bucket") {
-            Bucket bucket = inventory.draggedIngredient.GetComponent<Bucket>();
-            if (heldLiquidIngredient != null && bucket.empty) {
-                return true; // if holding liquid and interacting with something to take it out
+        if (inventory.draggedIngredient != null)
+        {
+            if (inventory.draggedIngredient.name == "Bucket")
+            {
+                Bucket bucket = inventory.draggedIngredient.GetComponent<Bucket>();
+                if (heldLiquidIngredient != null && bucket.empty)
+                {
+                    return true; // if holding liquid and interacting with something to take it out
+                }
+                if (!bucket.empty && heldLiquidIngredient == null && (onlyLiquid || canHoldLiquidAndSolid))
+                    return true; // if ok to put liquid in
             }
-            if (!bucket.empty && heldLiquidIngredient == null && (onlyLiquid || canHoldLiquidAndSolid))
-                return true; // if ok to put liquid in
+            else if (inventory.draggedIngredient.name == "Drink") return false;
+            else if (!inventory.NameToIngredient[inventory.draggedIngredient.name].isLiquid && (onlySolid || canHoldLiquidAndSolid))
+                return true; // if ok to put solid in
         }
-        else if (inventory.draggedIngredient.name == "Drink") return false;
-        else if (!inventory.NameToIngredient[inventory.draggedIngredient.name].isLiquid && (onlySolid || canHoldLiquidAndSolid))
-            return true; // if ok to put solid in
 
         return false;
     }
@@ -131,7 +136,7 @@ public class Interactable : MonoBehaviour
 
     public virtual void InteractEmptyHand()
     {
-        if (!InteractableWithOtherIng()) return;
+        if (!InteractableWithHand()) return;
         AudioClip clip = null;
         if (source != null) {
             clip = clips[Random.Range(0, clips.Count)];
