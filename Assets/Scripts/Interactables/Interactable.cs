@@ -113,17 +113,25 @@ public class Interactable : MonoBehaviour
         return false;
     }
 
-    public virtual bool InteractableWithHand() {
-        if (heldLiquidIngredient != null && heldIngredient != null) {
+    public virtual bool InteractableWithHand()
+    {
+        if (inventory == null)
+            inventory = PlayerInventory.PI;
+
+        if (heldLiquidIngredient != null && heldIngredient != null)
+        {
             Ingredient liquid = inventory.NameToIngredient[heldLiquidIngredient.name];
             Ingredient solid = inventory.NameToIngredient[heldIngredient.name];
             if (heldLiquidIngredient.name.EndsWith("Water") && CheckFlags(liquid, Ingredient.FlavourVariable.TeaType)
                 && heldIngredient.name.StartsWith("Dried") && (name == "Stove" || name == "Infuser")
                 || (name == "Infuser" && liquid.infusable && solid.infusion != Ingredient.Infusion.None))
                 return true;
-        } else if (heldIngredient != null) 
+        }
+        else if (heldIngredient != null)
+        {
             if (inventory.NameToIngredient[heldIngredient.name].Alterations.ContainsKey(name))
                 return true;
+        }
         return false;
     }
 
@@ -160,7 +168,9 @@ public class Interactable : MonoBehaviour
     }
 
     public IEnumerator WaitTillSFXFinished(float delay) {
+        heldIngredient.GetComponent<Collider>().enabled = false;
         yield return new WaitForSeconds(delay);
+        heldIngredient.GetComponent<Collider>().enabled = true;
         SwitchObjs();
     }
 
