@@ -19,7 +19,7 @@ public class PlayerInteractHold : Interactable
         rb.useGravity = false;
         rb.constraints = (RigidbodyConstraints)126; // no rotation
         heldIngredient.transform.parent = transform.GetChild(0);
-        heldIngredient.transform.localPosition = Vector3.forward;
+        heldIngredient.transform.localPosition = new Vector3(0, 2.75f, 2);
     }
 
     public override void Release(GameObject ingredient)
@@ -30,5 +30,10 @@ public class PlayerInteractHold : Interactable
         heldIngredient.transform.parent = ogParent;
 
         heldIngredient = null;
+    }
+
+    public override bool InteractableWithOtherIng()
+    {
+        return true;
     }
 }

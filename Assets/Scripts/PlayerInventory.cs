@@ -22,7 +22,6 @@ public class PlayerInventory : MonoBehaviour
     public Interactable hoveringInteractable;
     public GameObject DrawersParent;
     private int numIngFound = 0;
-    bool duplicate = false;
 
     private void Start()
     {
@@ -60,9 +59,6 @@ public class PlayerInventory : MonoBehaviour
                 draggedIngredient=null;
             }
         } else if (!context.canceled && hoveringShelf != null) {
-            duplicate = !duplicate;
-            if (duplicate)
-                return;
             Debug.Log(hoveringShelf.name.Replace("Drawer", ""));
             Ingredient hoveringIng = NameToIngredient[hoveringShelf.name];
             GameObject ingObj = Instantiate(hoveringIng.Prefab);

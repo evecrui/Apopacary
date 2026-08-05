@@ -93,7 +93,7 @@ public class DragObj : MonoBehaviour
         while (isDragging) {
             //Dragging
             transform.position = mouseWorldPos + offset;
-            transform.position = new Vector3(transform.position.x, Mathf.Clamp(transform.position.y, 0, transform.position.y), playerTrans.position.z + playerZOffset);
+            transform.position = new Vector3(transform.position.x, Mathf.Clamp(transform.position.y, 0.05f, transform.position.y), playerTrans.position.z + playerZOffset);
             if (mousePos.x < 0)
                 mr.enabled = false;
             else mr.enabled = true;
