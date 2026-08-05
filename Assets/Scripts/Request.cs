@@ -1,8 +1,11 @@
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEditor.Analytics;
 using UnityEngine;
 using UnityEngine.AI;
 using static Drink;
+using static Unity.Burst.Intrinsics.X86;
+using static Unity.VisualScripting.Member;
 
 public class Request : MonoBehaviour
 {
@@ -19,7 +22,13 @@ public class Request : MonoBehaviour
     public Animator anim;
     public NavMeshAgent nma;
     public Transform shoptopathfindto;
+    public Transform exittopathfindto;
+    public Transform waitingPos;
+    bool moving = false;
+    bool waiting = false;
     bool ordered = false;
+    public AudioSource source;
+    public AudioClip bell;
 
     public void Start()
     {
@@ -55,10 +64,35 @@ public class Request : MonoBehaviour
 
     private void Update()
     {
-        anim.SetFloat("Speed", nma.speed);
-        if (nma.speed < 0.01f && !ordered)
+        if (nma.velocity.magnitude > 0.05f)
+            moving = true;
+        anim.SetFloat("Speed", nma.velocity.magnitude);
+        if (moving && nma.velocity.magnitude < 0.05f && !waiting)
         {
-            ordered = true;
+            Debug.Log("waiting");
+            GetComponent<CustomerInteractable>().waiting = true;
+            source.PlayOneShot(bell);
+            waiting = true;
         }
+    }
+
+    public void Accept()
+    {
+        Debug.Log("Accept");
+        waiting = false;
+        ordered = true;
+        GetComponent<CustomerInteractable>().ordered = true;
+        GetComponent<CustomerInteractable>().waiting = false;
+        Vector2 randomness = Random.insideUnitCircle * 5f;
+        nma.SetDestination(waitingPos.position + new Vector3(randomness.x, 0, randomness.y));
+        GetComponent<CustomerInteractable>().DisableRequest();
+    }
+
+    public void Deny()
+    {
+        Debug.Log("Deny");
+        waiting = false;
+        nma.SetDestination(exittopathfindto.position);
+        GetComponent<CustomerInteractable>().DisableRequest();
     }
 }
