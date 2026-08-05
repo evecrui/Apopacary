@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &4191485748199267125
+--- !u!1001 &5091402324755462414
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -10,19 +10,19 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 514433805402397341, guid: c457c273d4c3a464faadbf56b9580bfd, type: 3}
       propertyPath: m_Name
-      value: NPC 3 Variant
+      value: NPC 4
       objectReference: {fileID: 0}
     - target: {fileID: 894090414171488295, guid: c457c273d4c3a464faadbf56b9580bfd, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -19.141674
+      value: -27.635345
       objectReference: {fileID: 0}
     - target: {fileID: 894090414171488295, guid: c457c273d4c3a464faadbf56b9580bfd, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.00000024739143
+      value: -0.0000003782747
       objectReference: {fileID: 0}
     - target: {fileID: 894090414171488295, guid: c457c273d4c3a464faadbf56b9580bfd, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -41.075005
+      value: -41.70663
       objectReference: {fileID: 0}
     - target: {fileID: 894090414171488295, guid: c457c273d4c3a464faadbf56b9580bfd, type: 3}
       propertyPath: m_LocalRotation.w
@@ -52,6 +52,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3395138718569071886, guid: c457c273d4c3a464faadbf56b9580bfd, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: b14049fcbe1550d4cb3b2eac900ac972, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 474436462373391575, guid: c457c273d4c3a464faadbf56b9580bfd, type: 3}
