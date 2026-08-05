@@ -34,6 +34,8 @@ public class PlayerMovement : MonoBehaviour
     public RectTransform tooltipTrans;
     public TextMeshProUGUI tooltipText;
 
+    public Animator anim;
+
     private void Awake()
     {
         cam = Camera.main;
@@ -53,6 +55,7 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        anim.SetFloat("Speed", _moveDelta.magnitude);
         if (_moveDelta.magnitude > 0)
         {
             Interactable i = CheckHovered();
