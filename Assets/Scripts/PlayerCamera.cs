@@ -1,4 +1,5 @@
-using System.Collections;
+using NUnit.Framework;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -13,6 +14,7 @@ public class PlayerCamera : MonoBehaviour
     public Vector3 oglocalHeldPos;
     public Quaternion localHeldRot;
     public Quaternion oglocalHeldRot;
+    public List<GameObject> rooves;
 
 
     public void OnScroll(InputAction.CallbackContext context) {
@@ -36,6 +38,8 @@ public class PlayerCamera : MonoBehaviour
         transform.parent = floor.transform;
         transform.localPosition = localHeldPos;
         transform.localRotation = localHeldRot;
+        foreach (GameObject g in rooves)
+            g.SetActive(false);
     }
 
     public void ExitRoom() {
@@ -44,5 +48,7 @@ public class PlayerCamera : MonoBehaviour
         transform.parent = ogParent;
         transform.localPosition = oglocalHeldPos;
         transform.localRotation = oglocalHeldRot;
+        foreach (GameObject g in rooves)
+            g.SetActive(true);
     }
 }
