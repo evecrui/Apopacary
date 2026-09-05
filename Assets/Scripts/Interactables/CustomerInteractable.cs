@@ -8,6 +8,7 @@ public class CustomerInteractable : Interactable
     public bool waiting;
     public bool ordered;
     public GameObject request;
+    public CustomerSpawner cs;
 
     public override void Interact(GameObject ingredient)
     {
@@ -49,6 +50,7 @@ public class CustomerInteractable : Interactable
             s += r.Replace(request.syrup.ToString(), " ") + " ";
         this.request.GetComponentsInChildren<TextMeshProUGUI>()[1].text = s;
         this.request.SetActive(true);
+        cs.NPCForDialogue = gameObject;
     }
 
     public string _Mult(string line, int times)
@@ -59,10 +61,5 @@ public class CustomerInteractable : Interactable
             sb += line;
         }
         return sb;
-    }
-
-    public void DisableRequest()
-    {
-        request.SetActive(false);
     }
 }

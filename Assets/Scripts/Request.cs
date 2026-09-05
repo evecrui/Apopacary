@@ -24,11 +24,13 @@ public class Request : MonoBehaviour
     public Transform shoptopathfindto;
     public Transform exittopathfindto;
     public Transform waitingPos;
-    bool moving = false;
+    public bool moving = false;
     bool waiting = false;
-    bool ordered = false;
+    public bool ordered = false;
+    public bool left = false;
     public AudioSource source;
     public AudioClip bell;
+    public CustomerSpawner cs;
 
     public void Start()
     {
@@ -88,14 +90,17 @@ public class Request : MonoBehaviour
         GetComponent<CustomerInteractable>().waiting = false;
         Vector2 randomness = Random.insideUnitCircle * 5f;
         nma.SetDestination(waitingPos.position + new Vector3(randomness.x, 0, randomness.y));
-        GetComponent<CustomerInteractable>().DisableRequest();
+        cs.waitingAtTillWitches.Remove(GetComponent<NavMeshAgent>());
+        cs.request.SetActive(false);
     }
 
     public void Deny()
     {
         Debug.Log("Deny");
         waiting = false;
+        left = true;
+        cs.waitingAtTillWitches.Remove(GetComponent<NavMeshAgent>());
         nma.SetDestination(exittopathfindto.position);
-        GetComponent<CustomerInteractable>().DisableRequest();
+        cs.request.SetActive(false);
     }
 }

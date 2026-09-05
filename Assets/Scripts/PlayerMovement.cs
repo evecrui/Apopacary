@@ -8,6 +8,7 @@ using UnityEditor;
 //using UnityEditor.ShaderKeywordFilter;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 using static UnityEngine.Rendering.DebugUI;
 
 public class PlayerMovement : MonoBehaviour
@@ -33,6 +34,15 @@ public class PlayerMovement : MonoBehaviour
     private int ogHoveredlayermask;
     public RectTransform tooltipTrans;
     public TextMeshProUGUI tooltipText;
+    public Image tooltipImg;
+    public Image tooltipImgInner;
+    public Material outlineMat;
+    public Color standardTooltip;
+    public Color greyedOutOuterBox;
+    public Color standardInnerBox;
+    public Color greyedOutInnerBox;
+    public Color standardText;
+    public Color greyedOutText;
 
     public Animator anim;
 
@@ -82,8 +92,21 @@ public class PlayerMovement : MonoBehaviour
         if (Physics.Raycast(ray, out hit))
         {
             Interactable i = hit.transform.GetComponent<Interactable>();
-            if ((i != null && !i.InteractableWithHand()) || Vector3.Distance(hit.transform.position, transform.position) >= 3)
+            if (Vector3.Distance(hit.transform.position, transform.position) >= 3)
                 return null;
+            if (i != null && !i.InteractableWithHand())
+            {
+                tooltipImg.color = greyedOutOuterBox;
+                outlineMat.color = greyedOutOuterBox;
+                tooltipImgInner.color = greyedOutInnerBox;
+                tooltipText.color = greyedOutText;
+            }
+            else if (i != null) {
+                tooltipImg.color = standardTooltip;
+                outlineMat.color = standardTooltip;
+                tooltipImgInner.color = standardInnerBox;
+                tooltipText.color = standardText;
+            }
             return i;
         }
         return null;
@@ -191,7 +214,12 @@ public class PlayerMovement : MonoBehaviour
             tooltipTrans.gameObject.SetActive(true);
             tooltipTrans.position = standardMousePos;
         }
-        else {
+        else
+        {
+            tooltipImg.color = standardTooltip;
+            outlineMat.color = standardTooltip;
+            tooltipImgInner.color = standardInnerBox;
+            tooltipText.color = standardText;
             tooltipTrans.gameObject.SetActive(false);
         }
     }

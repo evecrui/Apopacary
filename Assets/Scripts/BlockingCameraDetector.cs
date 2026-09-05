@@ -57,23 +57,26 @@ public class BlockingCameraDetector : MonoBehaviour
 
     private IEnumerator FadeCoroutine(GameObject fading, float targetAlpha)
     {
-        Material m = currentlyTransparenting.GetComponent<MeshRenderer>().material;
-        Color c = m.GetColor(BaseColorID);
-        float startAlpha = c.a;
-        float t = 0f;
-
-        while (t < 1f)
+        if (currentlyTransparenting.GetComponent<MeshRenderer>() != null)
         {
-            t += Time.deltaTime / fadeDuration;
-            float a = Mathf.Lerp(startAlpha, targetAlpha, t);
-            c.a = a;
-            m.SetColor(BaseColorID, c);
-            yield return null;
-        }
+            Material m = currentlyTransparenting.GetComponent<MeshRenderer>().material;
+            Color c = m.GetColor(BaseColorID);
+            float startAlpha = c.a;
+            float t = 0f;
 
-        c.a = targetAlpha;
-        m.SetColor(BaseColorID, c);
-        fadeRoutine = null;
+            while (t < 1f)
+            {
+                t += Time.deltaTime / fadeDuration;
+                float a = Mathf.Lerp(startAlpha, targetAlpha, t);
+                c.a = a;
+                m.SetColor(BaseColorID, c);
+                yield return null;
+            }
+
+            c.a = targetAlpha;
+            m.SetColor(BaseColorID, c);
+            fadeRoutine = null;
+        }
     }
 
 }
