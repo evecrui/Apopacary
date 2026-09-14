@@ -13,6 +13,11 @@ public class DragObj : MonoBehaviour
     public bool isDragging;
     public Interactable hoveredInteractable;
     public Interactable holdingInteractable;
+    public PlayerMovement pm;
+
+    private void Start() {
+        pm = FindFirstObjectByType<PlayerMovement>();
+    }
 
     private Vector3 mouseWorldPos {
         get {
@@ -20,15 +25,10 @@ public class DragObj : MonoBehaviour
             return cam.ScreenToWorldPoint(mousePos + new Vector3(0, 0, z));
         }
     }
-    private bool isClicked { 
+    private bool isClickable { 
         get {
             if (mousePos.x < 0) return false;
-            Ray ray = cam.ScreenPointToRay(mousePos);
-            RaycastHit hit;
-            if (Physics.Raycast(ray, out hit)) {
-                return hit.transform == transform;
-            }
-            return false;
+            return pm.hoveringIng == transform;
         } }
 
     private bool inPlayerRange {
@@ -73,7 +73,7 @@ public class DragObj : MonoBehaviour
         screenPos.performed += context => {
             mousePos = context.ReadValue<Vector2>() - new Vector2(520, 0);
             mousePos.x = Mathf.Clamp(mousePos.x, -1, 1400); };
-        press.performed += _ => { if(isClicked && inPlayerRange) StartCoroutine(Drag()); };
+        press.performed += _ => { if(isClickable && inPlayerRange) StartCoroutine(Drag()); };
         press.canceled += _ => { isDragging = false; };
     }
 

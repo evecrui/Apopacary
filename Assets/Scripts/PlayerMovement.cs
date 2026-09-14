@@ -29,6 +29,9 @@ public class PlayerMovement : MonoBehaviour
     private Camera cam;
     [SerializeField] private InputAction screenPos;
 
+
+    public Transform hoveringIng;
+    public Interactable hoveringInteractable;
     private Transform lastHoveredngredient;
     private Transform tooltippedObject;
     private int ogHoveredlayermask;
@@ -55,9 +58,7 @@ public class PlayerMovement : MonoBehaviour
             standardMousePos = context.ReadValue<Vector2>();
             mousePos = (Vector2)standardMousePos - new Vector2(520, 0);
             mousePos.x = Mathf.Clamp(mousePos.x, -1, 1400);
-            Interactable i = CheckHovered();
-            Transform ing = CheckHoveredIngredients();
-            SetHovered(i, ing);
+            UpdateHovered();
 
         };
     }
@@ -68,9 +69,7 @@ public class PlayerMovement : MonoBehaviour
         anim.SetFloat("Speed", _moveDelta.magnitude);
         if (_moveDelta.magnitude > 0)
         {
-            Interactable i = CheckHovered();
-            Transform ing = CheckHoveredIngredients();
-            SetHovered(i, ing);
+            UpdateHovered();
 
             Vector2 moveDelta = _moveDelta * (running ? runSpeed : speed) * Time.deltaTime;
             transform.Translate(new Vector3(moveDelta.x, 0, moveDelta.y));
@@ -79,21 +78,37 @@ public class PlayerMovement : MonoBehaviour
     }
 
     public void UpdateHovered() {
-        Interactable i = CheckHovered();
-        Transform ing = CheckHoveredIngredients();
-        SetHovered(i, ing);
+        (Interactable, Transform) i = CheckHovered();
+        Transform ing = i.Item2 == null ? ing = CheckHoveredIngredients() : i.Item2;
+        hoveringIng = ing;
+        hoveringInteractable = i.Item1;
+        SetHovered(i.Item1, ing);
     }
 
-    private Interactable CheckHovered()
+    private (Interactable, Transform) CheckHovered()
     {
-        if (mousePos.x < 0) return null;
+        if (mousePos.x < 0) return (null, null);
         Ray ray = cam.ScreenPointToRay(mousePos);
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit))
         {
             Interactable i = hit.transform.GetComponent<Interactable>();
             if (Vector3.Distance(hit.transform.position, transform.position) >= 3)
-                return null;
+                return (null, null);
+            if (i != null) {
+                Interactable i2 = i;
+                RaycastHit hit2;
+                ray.origin = ray.origin + ray.direction * 0.001f;
+                Physics.Raycast(ray, out hit2);
+                while (i2 != null && Vector3.Distance(hit2.transform.position, transform.position) < 3) {
+                    if (Physics.Raycast(ray, out hit2)) {
+                        if (hit2.transform.tag == "Ingredient" && Vector3.Distance(hit2.transform.position, transform.position) < 3)
+                            return (null, hit2.transform);
+                        i2 = hit2.transform.GetComponent<Interactable>();
+                    }
+                    ray.origin = ray.origin + ray.direction * 0.001f;
+                }
+            }
             if (i != null && !i.InteractableWithHand())
             {
                 tooltipImg.color = greyedOutOuterBox;
@@ -102,14 +117,15 @@ public class PlayerMovement : MonoBehaviour
                 tooltipText.color = greyedOutText;
             }
             else if (i != null) {
+                Debug.Log("Interactable");
                 tooltipImg.color = standardTooltip;
                 outlineMat.color = standardTooltip;
                 tooltipImgInner.color = standardInnerBox;
                 tooltipText.color = standardText;
             }
-            return i;
+            return (i, null);
         }
-        return null;
+        return (null, null);
     }
 
     private Transform CheckHoveredIngredients()

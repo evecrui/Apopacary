@@ -14,7 +14,8 @@ public class Interactable : MonoBehaviour
     public bool onlySolid;
     public bool canHoldLiquidAndSolid;
     public bool emptyHandInteractable;
-    public bool needHoldIngToInteractEmptyHanded;
+    public bool onlyEmptyWithHeld;
+    public bool onlyEmptyNoHeld;
     public bool highlighted;
     public AudioSource source;
     public List<AudioClip> clips;
@@ -118,7 +119,12 @@ public class Interactable : MonoBehaviour
         if (inventory == null)
             inventory = PlayerInventory.PI;
 
-        if (heldLiquidIngredient != null && heldIngredient != null)
+        if (heldIngredient == null && onlyEmptyWithHeld)
+            return false;
+        else if (heldIngredient != null && onlyEmptyNoHeld)
+            return false;
+
+        else if (heldLiquidIngredient != null && heldIngredient != null)
         {
             Ingredient liquid = inventory.NameToIngredient[heldLiquidIngredient.name];
             Ingredient solid = inventory.NameToIngredient[heldIngredient.name];
@@ -127,7 +133,7 @@ public class Interactable : MonoBehaviour
                 || (name == "Infuser" && liquid.infusable && solid.infusion != Ingredient.Infusion.None))
                 return true;
         }
-        else if (heldIngredient != null)
+        else if (heldIngredient != null && !onlyEmptyNoHeld)
         {
             if (inventory.NameToIngredient[heldIngredient.name].Alterations.ContainsKey(name))
                 return true;
