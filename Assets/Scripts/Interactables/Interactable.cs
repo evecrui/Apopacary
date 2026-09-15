@@ -7,7 +7,7 @@ using System.Collections;
 public class Interactable : MonoBehaviour
 {
     int layermask;
-    public GameObject heldIngredient;
+    public GameObject interactableHeldIngredient;
     public GameObject heldLiquidIngredient;
     public GameObject heldLiquidIngredientShape;
     public bool onlyLiquid;
@@ -48,24 +48,24 @@ public class Interactable : MonoBehaviour
             return;
         }
         Ingredient ing = inventory.NameToIngredient[ingredient.name];
-        if (heldIngredient != null) {
-            Release(heldIngredient);
+        if (interactableHeldIngredient != null) {
+            Release(interactableHeldIngredient);
         }
 
         // if solid and now nothing else solid inside
         ingredient.GetComponent<DragObj>().holdingInteractable = this;
 
-        heldIngredient = ingredient;
+        interactableHeldIngredient = ingredient;
 
-        rb = heldIngredient.GetComponent<Rigidbody>();
+        rb = interactableHeldIngredient.GetComponent<Rigidbody>();
         rb.useGravity = false;
         rb.constraints = (RigidbodyConstraints)126; // no rotation
 
-        heldIngredient.transform.position = transform.TransformPoint(relativeHeldPos);
+        interactableHeldIngredient.transform.position = transform.TransformPoint(relativeHeldPos);
     }
 
     public virtual void Release(GameObject ingredient) {
-        heldIngredient = null;
+        interactableHeldIngredient = null;
     }
 
     public void Hover() {
@@ -96,6 +96,7 @@ public class Interactable : MonoBehaviour
 
         if (inventory.draggedIngredient != null)
         {
+            Ingredient ing = inventory.NameToIngredient[inventory.draggedIngredient.name];
             if (inventory.draggedIngredient.name == "Bucket")
             {
                 Bucket bucket = inventory.draggedIngredient.GetComponent<Bucket>();
@@ -107,7 +108,7 @@ public class Interactable : MonoBehaviour
                     return true; // if ok to put liquid in
             }
             else if (inventory.draggedIngredient.name == "Drink") return false;
-            else if (!inventory.NameToIngredient[inventory.draggedIngredient.name].isLiquid && (onlySolid || canHoldLiquidAndSolid))
+            else if (!ing.isLiquid && (onlySolid || canHoldLiquidAndSolid) && ing.AlterationKeys.Contains(name))
                 return true; // if ok to put solid in
         }
 
@@ -119,23 +120,23 @@ public class Interactable : MonoBehaviour
         if (inventory == null)
             inventory = PlayerInventory.PI;
 
-        if (heldIngredient == null && onlyEmptyWithHeld)
+        if (interactableHeldIngredient == null && onlyEmptyWithHeld)
             return false;
-        else if (heldIngredient != null && onlyEmptyNoHeld)
+        else if (interactableHeldIngredient != null && onlyEmptyNoHeld)
             return false;
 
-        else if (heldLiquidIngredient != null && heldIngredient != null)
+        else if (heldLiquidIngredient != null && interactableHeldIngredient != null)
         {
             Ingredient liquid = inventory.NameToIngredient[heldLiquidIngredient.name];
-            Ingredient solid = inventory.NameToIngredient[heldIngredient.name];
+            Ingredient solid = inventory.NameToIngredient[interactableHeldIngredient.name];
             if (heldLiquidIngredient.name.EndsWith("Water") && CheckFlags(liquid, Ingredient.FlavourVariable.TeaType)
-                && heldIngredient.name.StartsWith("Dried") && (name == "Stove" || name == "Infuser")
+                && interactableHeldIngredient.name.StartsWith("Dried") && (name == "Stove" || name == "Infuser")
                 || (name == "Infuser" && liquid.infusable && solid.infusion != Ingredient.Infusion.None))
                 return true;
         }
-        else if (heldIngredient != null && !onlyEmptyNoHeld)
+        else if (interactableHeldIngredient != null && !onlyEmptyNoHeld)
         {
-            if (inventory.NameToIngredient[heldIngredient.name].Alterations.ContainsKey(name))
+            if (inventory.NameToIngredient[interactableHeldIngredient.name].Alterations.ContainsKey(name))
                 return true;
         }
         return false;
@@ -157,7 +158,7 @@ public class Interactable : MonoBehaviour
             source.PlayOneShot(clip);
         }
         Debug.Log("Interact with empty hand on " + name + "!!");
-        if (heldIngredient)
+        if (interactableHeldIngredient)
         {
             if (coroutineRunning) {
                 coroutineRunning = false;
@@ -174,25 +175,25 @@ public class Interactable : MonoBehaviour
     }
 
     public IEnumerator WaitTillSFXFinished(float delay) {
-        heldIngredient.GetComponent<Collider>().enabled = false;
+        interactableHeldIngredient.GetComponent<Collider>().enabled = false;
         yield return new WaitForSeconds(delay);
-        heldIngredient.GetComponent<Collider>().enabled = true;
+        interactableHeldIngredient.GetComponent<Collider>().enabled = true;
         SwitchObjs();
     }
 
     public virtual void SwitchObjs() {
         PlayerInventory PI = PlayerInventory.PI;
-        if (heldIngredient == null) return;
-        Ingredient oldIng = PI.NameToIngredient[heldIngredient.name];
+        if (interactableHeldIngredient == null) return;
+        Ingredient oldIng = PI.NameToIngredient[interactableHeldIngredient.name];
         if (!oldIng.Alterations.ContainsKey(name)) return;
         GameObject prefab = oldIng.Alterations[name].Prefab;
         GameObject newVersion = Instantiate(prefab);
-        newVersion.transform.position = heldIngredient.transform.position;
-        newVersion.transform.rotation = heldIngredient.transform.rotation;
-        newVersion.transform.parent = heldIngredient.transform.parent;
+        newVersion.transform.position = interactableHeldIngredient.transform.position;
+        newVersion.transform.rotation = interactableHeldIngredient.transform.rotation;
+        newVersion.transform.parent = interactableHeldIngredient.transform.parent;
         newVersion.name = prefab.name;
-        heldIngredient.SetActive(false);
-        heldIngredient = newVersion;
+        interactableHeldIngredient.SetActive(false);
+        interactableHeldIngredient = newVersion;
 
         if (!PI.NameToIngredient[prefab.name].Alterations.ContainsKey(name))
             UnHover();

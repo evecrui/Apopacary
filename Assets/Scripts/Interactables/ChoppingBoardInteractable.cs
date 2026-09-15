@@ -36,6 +36,6 @@ public class ChoppingBoardInteractable : Interactable
         rb.useGravity = true;
         rb.constraints = (RigidbodyConstraints)0;
 
-        heldIngredient = null;
+        interactableHeldIngredient = null;
     }
 }

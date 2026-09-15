@@ -11,7 +11,7 @@ public class InfuserInteractable : Interactable
             source.PlayOneShot(clip);
         }
         Debug.Log("Interact with empty hand on " + name + "!!");
-        if (heldIngredient != null && heldLiquidIngredient != null) {
+        if (interactableHeldIngredient != null && heldLiquidIngredient != null) {
             if (coroutineRunning) {
                 coroutineRunning = false;
                 StopCoroutine(nameof(WaitTillSFXFinished));
@@ -30,32 +30,32 @@ public class InfuserInteractable : Interactable
         if (inventory == null)
             inventory = PlayerInventory.PI;
         Ingredient liquid = inventory.NameToIngredient[heldLiquidIngredient.name];
-        Ingredient solid = inventory.NameToIngredient[heldIngredient.name];
+        Ingredient solid = inventory.NameToIngredient[interactableHeldIngredient.name];
         if (liquid != null && liquid.infusable && solid.infusion != Ingredient.Infusion.None) {
 
             liquid.AddInfusion(solid.infusion, heldLiquidIngredient);
-            heldIngredient.SetActive(false);
-            heldIngredient = null;
+            interactableHeldIngredient.SetActive(false);
+            interactableHeldIngredient = null;
             return;
         } else if (liquid != null && liquid.Name.EndsWith("Water") && 
                 CheckFlags(solid, Ingredient.FlavourVariable.TeaType) && solid.name.StartsWith("Dried")) {
             liquid.AddTea(solid.teaType, heldLiquidIngredient);
-            heldIngredient.SetActive(false);
-            heldIngredient = null;
+            interactableHeldIngredient.SetActive(false);
+            interactableHeldIngredient = null;
         }
 
 
-        if (heldIngredient == null) return;
-        Ingredient oldIng = inventory.NameToIngredient[heldIngredient.name];
+        if (interactableHeldIngredient == null) return;
+        Ingredient oldIng = inventory.NameToIngredient[interactableHeldIngredient.name];
         if (!oldIng.Alterations.ContainsKey(name)) return;
         GameObject prefab = oldIng.Alterations[name].Prefab;
         GameObject newVersion = Instantiate(prefab);
-        newVersion.transform.position = heldIngredient.transform.position;
-        newVersion.transform.rotation = heldIngredient.transform.rotation;
-        newVersion.transform.parent = heldIngredient.transform.parent;
+        newVersion.transform.position = interactableHeldIngredient.transform.position;
+        newVersion.transform.rotation = interactableHeldIngredient.transform.rotation;
+        newVersion.transform.parent = interactableHeldIngredient.transform.parent;
         newVersion.name = prefab.name;
-        heldIngredient.SetActive(false);
-        heldIngredient = newVersion;
+        interactableHeldIngredient.SetActive(false);
+        interactableHeldIngredient = newVersion;
 
         if (!inventory.NameToIngredient[prefab.name].Alterations.ContainsKey(name))
             UnHover();
@@ -75,6 +75,6 @@ public class InfuserInteractable : Interactable
         rb.useGravity = true;
         rb.constraints = (RigidbodyConstraints)0;
 
-        heldIngredient = null;
+        interactableHeldIngredient = null;
     }
 }

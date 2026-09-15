@@ -109,19 +109,13 @@ public class PlayerMovement : MonoBehaviour
                     ray.origin = ray.origin + ray.direction * 0.001f;
                 }
             }
-            if (i != null && !i.InteractableWithHand())
+            bool draggingIng = PlayerInventory.PI.draggedIngredient != null;
+            if (i != null && ((draggingIng && !i.InteractableWithOtherIng()) || (!draggingIng && !i.InteractableWithHand())))
             {
-                tooltipImg.color = greyedOutOuterBox;
-                outlineMat.color = greyedOutOuterBox;
-                tooltipImgInner.color = greyedOutInnerBox;
-                tooltipText.color = greyedOutText;
+                GreyOutToolTip();
             }
             else if (i != null) {
-                Debug.Log("Interactable");
-                tooltipImg.color = standardTooltip;
-                outlineMat.color = standardTooltip;
-                tooltipImgInner.color = standardInnerBox;
-                tooltipText.color = standardText;
+                StandardizeToolTip();
             }
             return (i, null);
         }
@@ -136,15 +130,36 @@ public class PlayerMovement : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit)) {
             if (hit.transform.tag == "Ingredient" && Vector3.Distance(hit.transform.position, transform.position) < 3)
+            {
+                StandardizeToolTip();
                 return hit.transform;
+            }
         }
         return null;
+    }
+
+    private void StandardizeToolTip()
+    {
+        tooltipImg.color = standardTooltip;
+        outlineMat.color = standardTooltip;
+        tooltipImgInner.color = standardInnerBox;
+        tooltipText.color = standardText;
+    }
+
+    private void GreyOutToolTip()
+    {
+        tooltipImg.color = greyedOutOuterBox;
+        outlineMat.color = greyedOutOuterBox;
+        tooltipImgInner.color = greyedOutInnerBox;
+        tooltipText.color = greyedOutText;
     }
 
     private void SetHovered(Interactable i, Transform ing)
     {
         if (ing != null)
         {
+            if (ing != PlayerInventory.PI.draggedIngredient)
+                StandardizeToolTip();
             if (ing != lastHoveredngredient)
             {
                 if (lastHoveredngredient != null)
@@ -171,6 +186,14 @@ public class PlayerMovement : MonoBehaviour
             }
             i.Hover();
             tooltippedObject = i.transform;
+            bool draggingIng = PlayerInventory.PI.draggedIngredient != null;
+            Debug.Log("Interactable with other ing: " + i.InteractableWithOtherIng());
+            if ((draggingIng && !i.InteractableWithOtherIng()) || (!draggingIng && !i.InteractableWithHand()))
+            {
+                GreyOutToolTip();
+            }
+            else
+                StandardizeToolTip();
         }
         else if (i == null && prevI != null)
         {
@@ -202,7 +225,7 @@ public class PlayerMovement : MonoBehaviour
             }
             else if (tooltippedObject.GetComponent<Interactable>() != null) {
                 Interactable interactable = tooltippedObject.GetComponent<Interactable>();
-                GameObject solid = interactable.heldIngredient;
+                GameObject solid = interactable.interactableHeldIngredient;
                 GameObject liquid = interactable.heldLiquidIngredient;
                 extraLines += (solid != null || liquid != null) ? "Holding: " + (solid != null ? r.Replace(solid.name, " ") : r.Replace(liquid.name, " ")) 
                             : "";
@@ -232,10 +255,7 @@ public class PlayerMovement : MonoBehaviour
         }
         else
         {
-            tooltipImg.color = standardTooltip;
-            outlineMat.color = standardTooltip;
-            tooltipImgInner.color = standardInnerBox;
-            tooltipText.color = standardText;
+            StandardizeToolTip();
             tooltipTrans.gameObject.SetActive(false);
         }
     }
